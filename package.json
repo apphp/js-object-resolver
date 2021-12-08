@@ -1,0 +1,26 @@
+{
+  "name": "@apphp/object-resolver",
+  "description": "Provides general functionality for dealing with nested properties in JavaScript objects.",
+  "version": "0.0.1",
+  "license": "MIT",
+  "author": {
+    "name": "Samuel Akopyan",
+    "url": "https://github.com/apphp"
+  },
+  "main": "index.js",
+  "homepage": "https://github.com/apphp/js-object-resolver",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/apphp/js-object-resolver.git"
+  },
+  "bugs": {
+    "url": "https://github.com/apphp/js-object-resolver/issues"
+  },
+  "keywords": [
+    "object",
+    "nested",
+    "properties",
+    "validator",
+    "resolver"
+  ]
+}
