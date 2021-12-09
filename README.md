@@ -18,3 +18,8 @@ $ npm uninstall @apphp/object-resolver
 ```
 
 
+## Run tests
+```sh
+$ npm run test
+```
+After tests running coverage report can be found in coverage directory
