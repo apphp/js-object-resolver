@@ -7,7 +7,7 @@
     "name": "Samuel Akopyan",
     "url": "https://github.com/apphp"
   },
-  "main": "index.js",
+  "main": "dist/object-resolver.js",
   "homepage": "https://github.com/apphp/js-object-resolver",
   "repository": {
     "type": "git",
@@ -22,5 +22,11 @@
     "properties",
     "validator",
     "resolver"
-  ]
+  ],
+  "devDependencies": {
+    "jest": "^27.4.3"
+  },
+  "scripts": {
+    "test": "jest --runInBand --detectOpenHandles --forceExit --coverage"
+  }
 }
