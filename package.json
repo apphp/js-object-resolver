@@ -1,7 +1,7 @@
 {
   "name": "@apphp/object-resolver",
   "description": "Provides general functionality for dealing with nested properties in JavaScript objects.",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "license": "MIT",
   "author": {
     "name": "Samuel Akopyan",
