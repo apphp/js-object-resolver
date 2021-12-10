@@ -2,6 +2,11 @@
 # Object Resolver 
 ### Provides general functionality for dealing with nested properties in JavaScript objects
 &nbsp;
+Available methods:
+- objectHasNestedProperty
+- objectGetNestedProperty
+- objectClone
+&nbsp;
 
 ## Install
 
@@ -26,30 +31,37 @@ After tests running coverage report can be found in coverage directory
 
 ## Usage
 
-Check if nested property exists
+Require package:
 ```js
-const prop = objectHasNestedProperty(obj, 'innerObject.deepObject.value');
+const resolver = require('@apphp/object-resolver');
+//import resolver from "@apphp/object-resolver";
 ```
+
+### objectHasNestedProperty(obj, propertyPath)
 Check if nested property exists, if not return default value
 ```js
-const prop = objectHasNestedProperty(obj, 'innerObject.deepObject.value', 'defaultValue');
+const prop = resolver.objectHasNestedProperty(obj, 'innerObject.deepObject.value');
+const prop = resolver.objectHasNestedProperty(obj, 'innerObject.deepObject.value', 'defaultValue');
 ```
+
+### objectGetNestedProperty(objParam, propertyPath, defaultValue)
 Get nested property exists and if not empty perform some action
 ```js
-const prop = objectGetNestedProperty(obj, 'innerObject.deepObject.value')
+const prop = resolver.objectGetNestedProperty(obj, 'innerObject.deepObject.value')
 if (prop) {
   // ...
 }
 ```
+
+### objectClone(obj)
 Deep cloning of object
 ```js
-const objCopy = objectClone(obj);
+const objCopy = resolver.objectClone(obj);
 ```
 
 ## Examples
 
 ```js
-const {objectHasNestedProperty, objectGetNestedProperty} = require('nested-props-validator');
 
 const obj = {
   innerObject: {
@@ -59,16 +71,14 @@ const obj = {
   }
 };
 
-console.log(objectHasNestedProperty(obj, 'innerObject.deepObject.value'));                         // true
-console.log(objectHasNestedProperty(obj, 'innerObject.deepObject.wrongValue'));                    // false
-console.log(objectGetNestedProperty(obj, 'innerObject.deepObject.value'));                         // 'Here I am'
-console.log(objectGetNestedProperty(obj, 'innerObject.deepObject.wrongValue'));                    // undefined
-console.log(objectGetNestedProperty(obj, 'innerObject.deepObject.wrongValue.oneMore', 'Oh-h-h'));  // 'Oh-h-h'
+console.log(resolver.objectHasNestedProperty(obj, 'innerObject.deepObject.value'));                         // true
+console.log(resolver.objectHasNestedProperty(obj, 'innerObject.deepObject.wrongValue'));                    // false
+console.log(resolver.objectGetNestedProperty(obj, 'innerObject.deepObject.value'));                         // 'Here I am'
+console.log(resolver.objectGetNestedProperty(obj, 'innerObject.deepObject.wrongValue'));                    // undefined
+console.log(resolver.objectGetNestedProperty(obj, 'innerObject.deepObject.wrongValue.oneMore', 'Oh-h-h'));  // 'Oh-h-h'
 ```
 
 ```js
-const nestedObj = require('nested-props-validator');
-//import nestedObj from "nested-props-validator";
 
 const obj = {
   innerObject: {
@@ -80,12 +90,15 @@ const obj = {
   }
 };
 
-console.log(nestedObj.objectHasNestedProperty(obj, 'innerObject.deepObject.0.name'));              // true
-console.log(nestedObj.objectGetNestedProperty(obj, 'innerObject.deepObject.1.name'));              // 'Nick'
+console.log(resolver.objectHasNestedProperty(obj, 'innerObject.deepObject.0.name'));              // true
+console.log(resolver.objectGetNestedProperty(obj, 'innerObject.deepObject.1.name'));              // 'Nick'
 ```
 
 
 ```js
 const obj = {'a':{'b':2}, 'c':3};
-const objCopy = objectClone(obj);
+const objCopy = resolver.objectClone(obj);
 ```
+
+## License
+MIT
