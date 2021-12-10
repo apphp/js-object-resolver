@@ -2,10 +2,12 @@
 # Object Resolver 
 ### Provides general functionality for dealing with nested properties in JavaScript objects
 &nbsp;
+
 Available methods:
 - objectHasNestedProperty
 - objectGetNestedProperty
 - objectClone
+
 &nbsp;
 
 ## Install
