@@ -22,6 +22,7 @@
     "property",
     "properties",
     "validator",
+    "cloning",
     "resolver"
   ],
   "devDependencies": {
