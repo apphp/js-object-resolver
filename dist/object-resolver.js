@@ -15,7 +15,7 @@ const returnValue = function (objParam, defaultValue) {
     return objParam;
   }
 
-  if (defaultValue !== null) {
+  if (typeof defaultValue !== "undefined") {
     return defaultValue;
   }
 
@@ -26,7 +26,7 @@ const returnValue = function (objParam, defaultValue) {
  * Check if object has nested property and returns it or default value
  * @usage: console.log(objectGetNestedProperty(obj, 'innerObject.deepObject.value', false));
  */
-const objectGetNestedProperty = function (objParam, propertyPath, defaultValue = null) {
+const objectGetNestedProperty = function (objParam, propertyPath, defaultValue) {
   let obj = objParam;
 
   if (!obj || !propertyPath) {
