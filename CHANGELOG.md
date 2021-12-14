@@ -1,5 +1,8 @@
 # CHANGELOG
 
+### 1.1.0 - 
+* Added more tests for objectGetNestedProperty method
+
 ### 1.0.3 - 13 Dec 2021
 * Added additional tests for objectGetNestedProperty method
 * Changed default value for defaultValue
