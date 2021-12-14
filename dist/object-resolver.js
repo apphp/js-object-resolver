@@ -24,9 +24,9 @@ const returnValue = function (objParam, defaultValue) {
 
 /**
  * Check if object has nested property and returns it or default value
- * @usage: console.log(objectGetNestedProperty(obj, 'innerObject.deepObject.value', false));
+ * @usage: console.log(getNestedProperty(obj, 'innerObject.deepObject.value', false));
  */
-const objectGetNestedProperty = function (objParam, propertyPath, defaultValue) {
+const getNestedProperty = function (objParam, propertyPath, defaultValue) {
   let obj = objParam;
 
   if (!obj || !propertyPath) {
@@ -51,18 +51,18 @@ const objectGetNestedProperty = function (objParam, propertyPath, defaultValue) 
 
 /**
  * Check if object has nested property
- * @usage: console.log(objectHasNestedProperty(obj, 'innerObject.deepObject.value'));
+ * @usage: console.log(hasNestedProperty(obj, 'innerObject.deepObject.value'));
  */
-const objectHasNestedProperty = function (obj, propertyPath) {
-  return objectGetNestedProperty(obj, propertyPath) !== undefined;
+const hasNestedProperty = function (obj, propertyPath) {
+  return getNestedProperty(obj, propertyPath) !== undefined;
 }
 
 /**
  * Deep cloning - create a real clone of object (not by reference)
  * Usable for cloning objects, that includes other objects
- * @usage: objCopy = objectClone(obj);
+ * @usage: objCopy = cloneObject(obj);
  */
-const objectClone = function (obj) {
+const cloneObject = function (obj) {
   if (!obj) {
     return obj;
   }
@@ -71,8 +71,8 @@ const objectClone = function (obj) {
 
 
 module.exports = {
-  objectHasNestedProperty: objectHasNestedProperty,
-  objectGetNestedProperty: objectGetNestedProperty,
-  objectClone: objectClone
+  hasNestedProperty: hasNestedProperty,
+  getNestedProperty: getNestedProperty,
+  cloneObject: cloneObject
 }
 

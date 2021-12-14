@@ -4,9 +4,9 @@
 &nbsp;
 
 Available methods:
-- objectHasNestedProperty
-- objectGetNestedProperty
-- objectClone
+- hasNestedProperty
+- getNestedProperty
+- cloneObject
 
 &nbsp;
 
@@ -39,26 +39,26 @@ const resolver = require('@apphp/object-resolver');
 //import resolver from "@apphp/object-resolver";
 ```
 
-### objectHasNestedProperty(obj, propertyPath)
+### hasNestedProperty(obj, propertyPath)
 Check if nested property exists, if not return default value
 ```js
-const prop = resolver.objectHasNestedProperty(obj, 'innerObject.deepObject.value');
-const prop = resolver.objectHasNestedProperty(obj, 'innerObject.deepObject.value', 'defaultValue');
+const prop = resolver.hasNestedProperty(obj, 'innerObject.deepObject.value');
+const prop = resolver.hasNestedProperty(obj, 'innerObject.deepObject.value', 'defaultValue');
 ```
 
-### objectGetNestedProperty(objParam, propertyPath, defaultValue)
+### getNestedProperty(objParam, propertyPath, defaultValue)
 Get nested property exists and if not empty perform some action
 ```js
-const prop = resolver.objectGetNestedProperty(obj, 'innerObject.deepObject.value')
+const prop = resolver.getNestedProperty(obj, 'innerObject.deepObject.value')
 if (prop) {
   // ...
 }
 ```
 
-### objectClone(obj)
+### cloneObject(obj)
 Deep cloning of object
 ```js
-const objCopy = resolver.objectClone(obj);
+const objCopy = resolver.cloneObject(obj);
 ```
 
 ## Examples
@@ -73,11 +73,11 @@ const obj = {
   }
 };
 
-console.log(resolver.objectHasNestedProperty(obj, 'innerObject.deepObject.value'));                         // true
-console.log(resolver.objectHasNestedProperty(obj, 'innerObject.deepObject.wrongValue'));                    // false
-console.log(resolver.objectGetNestedProperty(obj, 'innerObject.deepObject.value'));                         // 'Here I am'
-console.log(resolver.objectGetNestedProperty(obj, 'innerObject.deepObject.wrongValue'));                    // undefined
-console.log(resolver.objectGetNestedProperty(obj, 'innerObject.deepObject.wrongValue.oneMore', 'Oh-h-h'));  // 'Oh-h-h'
+console.log(resolver.hasNestedProperty(obj, 'innerObject.deepObject.value'));                         // true
+console.log(resolver.hasNestedProperty(obj, 'innerObject.deepObject.wrongValue'));                    // false
+console.log(resolver.getNestedProperty(obj, 'innerObject.deepObject.value'));                         // 'Here I am'
+console.log(resolver.getNestedProperty(obj, 'innerObject.deepObject.wrongValue'));                    // undefined
+console.log(resolver.getNestedProperty(obj, 'innerObject.deepObject.wrongValue.oneMore', 'Oh-h-h'));  // 'Oh-h-h'
 ```
 
 ```js
@@ -92,14 +92,14 @@ const obj = {
   }
 };
 
-console.log(resolver.objectHasNestedProperty(obj, 'innerObject.deepObject.0.name'));              // true
-console.log(resolver.objectGetNestedProperty(obj, 'innerObject.deepObject.1.name'));              // 'Nick'
+console.log(resolver.hasNestedProperty(obj, 'innerObject.deepObject.0.name'));              // true
+console.log(resolver.getNestedProperty(obj, 'innerObject.deepObject.1.name'));              // 'Nick'
 ```
 
 
 ```js
 const obj = {'a':{'b':2}, 'c':3};
-const objCopy = resolver.objectClone(obj);
+const objCopy = resolver.cloneObject(obj);
 ```
 
 ## License
