@@ -1,5 +1,10 @@
 # CHANGELOG
 
+### 2.0.1 - 16 Dec 2021
+* Added tests for hasNestedProperty method
+* Improved code of hasNestedProperty and getNestedProperty
+* Bud fixed in hasNestedProperty for element with value undefined
+
 ### 2.0.0 - 14 Dec 2021 
 * Added more tests for getNestedProperty method
 * All methods renamed to shorter names
