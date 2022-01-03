@@ -1,5 +1,10 @@
 /**
-
+ * Object Resolver
+ * @license https://github.com/apphp/js-object-resolver/blob/main/LICENSE
+ *
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2021-2022 Samuel Akopyan <admin@apphp.com>
  */
 
 "use strict";
@@ -9,7 +14,6 @@
  | Main functions
  |------------------------------------------------------------
  */
-
 
 /**
  * Check if object has nested property and returns it or default value
