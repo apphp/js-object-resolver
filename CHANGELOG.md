@@ -1,5 +1,8 @@
 # CHANGELOG
 
+### 2.2.0 - 16 Jun 2022
+* Added ESLint
+
 ### 2.1.1 - 16 Dec 2021
 * Added tests for hasNestedProperty method
 * Improved code of hasNestedProperty and getNestedProperty

@@ -1,7 +1,7 @@
 {
   "name": "@apphp/object-resolver",
   "description": "Provides general functionality for dealing with nested properties in JavaScript objects.",
-  "version": "2.1.1",
+  "version": "2.2.0",
   "license": "MIT",
   "author": {
     "name": "Samuel Akopyan",
@@ -26,9 +26,13 @@
     "resolver"
   ],
   "devDependencies": {
-    "jest": "^27.4.3"
+    "eslint": "^7.31.0",
+    "eslint-plugin-import": "^2.23.4",
+    "jest": "^27.4.7"
   },
   "scripts": {
-    "test": "jest --runInBand --detectOpenHandles --forceExit --coverage"
+    "test": "jest --runInBand --detectOpenHandles --forceExit --coverage",
+    "eslint": "eslint **/* --ext .js",
+    "eslint-fix": "eslint --fix **/* --ext .js"
   }
 }

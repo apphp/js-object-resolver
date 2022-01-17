@@ -31,6 +31,17 @@ $ npm run test
 After tests running coverage report can be found in coverage directory
 
 
+## Run ESLint
+To perform ESlint check run following command: 
+```sh
+$ npm run eslint
+```
+To fix issues, found by ESLint run:
+```sh
+$ npm run eslint-fix
+```
+
+
 ## Usage
 
 Require package:
