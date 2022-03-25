@@ -32,7 +32,7 @@
   },
   "scripts": {
     "test": "jest --runInBand --detectOpenHandles --forceExit --coverage",
-    "eslint": "eslint **/* --ext .js",
-    "eslint-fix": "eslint --fix **/* --ext .js"
+    "eslint": "eslint dist/* --ext .js",
+    "eslint-fix": "eslint dist/* --fix --ext .js"
   }
 }

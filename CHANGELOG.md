@@ -1,5 +1,8 @@
 # CHANGELOG
 
+### 2.3.0 - 25 Mar 2022
+* Fixed ESLint syntax issues 
+
 ### 2.2.0 - 16 Jun 2022
 * Added ESLint
 
