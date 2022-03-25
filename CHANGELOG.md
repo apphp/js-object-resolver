@@ -1,5 +1,8 @@
 # CHANGELOG
 
+### 2.3.1 - 25 Mar 2022
+* Typo fixes
+
 ### 2.3.0 - 25 Mar 2022
 * Fixed ESLint syntax issues 
 * Added new method fetchNestedProperty
