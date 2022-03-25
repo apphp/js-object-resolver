@@ -41,7 +41,6 @@ To fix issues, found by ESLint run:
 $ npm run eslint-fix
 ```
 
-
 ## Usage
 
 Require package:
@@ -64,6 +63,12 @@ const prop = resolver.getNestedProperty(obj, 'innerObject.deepObject.value')
 if (prop) {
   // ...
 }
+```
+
+### fetchNestedProperty(obj, path)
+Fetch chained nested property
+```js
+const prop = objectGetNestedProperty(obj, 'prop');
 ```
 
 ### cloneObject(obj)
@@ -107,6 +112,10 @@ console.log(resolver.hasNestedProperty(obj, 'innerObject.deepObject.0.name'));  
 console.log(resolver.getNestedProperty(obj, 'innerObject.deepObject.1.name'));              // 'Nick'
 ```
 
+```js
+const obj = { role: { role: { role: 'student' } }};
+const role = objectGetNestedProperty(obj, 'role');
+```
 
 ```js
 const obj = {'a':{'b':2}, 'c':3};

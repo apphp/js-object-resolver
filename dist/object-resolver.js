@@ -81,8 +81,8 @@ const cloneObject = function (obj) {
 
 /**
  * Check if object has chained nested property and return the last found property value
- * @example: obj = { role: { role: { role: 'student' } }}
- * @usage: let role = objectGetNestedProperty(obj, 'role');
+ * @usage: const obj = { role: { role: { role: 'student' } }};
+ *         const role = objectGetNestedProperty(obj, 'role');
  */
 const fetchNestedProperty = function (obj, path) {
   if (!obj || !path) {
