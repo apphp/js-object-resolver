@@ -2,6 +2,8 @@
 
 ### 2.3.0 - 25 Mar 2022
 * Fixed ESLint syntax issues 
+* Added new method fetchNestedProperty
+* Added tests for fetchNestedProperty method
 
 ### 2.2.0 - 16 Jun 2022
 * Added ESLint
