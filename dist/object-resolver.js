@@ -80,6 +80,30 @@ const cloneObject = function (obj) {
 }
 
 /**
+ * Check if object has chained nested property and return the last found property value
+ * @example: obj = { role: { role: { role: 'student' } }}
+ * @usage: let role = objectGetNestedProperty(obj, 'role');
+ */
+const fetchNestedProperty = function (obj, path) {
+  if (!obj || !path) {
+    return undefined;
+  }
+
+  let result, property;
+  for (property in obj) {
+    if (obj.hasOwnProperty(property) && property === path) {
+      if (typeof obj[property] === 'object') {
+        result = fetchNestedProperty(obj[property], path);
+      } else {
+        result = obj[property];
+      }
+    }
+  }
+  return result;
+};
+
+
+/**
  |------------------------------------------------------------
  | Helpers
  |------------------------------------------------------------
@@ -115,10 +139,10 @@ const validatePropertyExists = function (obj, prop) {
   return result;
 }
 
-
 module.exports = {
   hasNestedProperty: hasNestedProperty,
   getNestedProperty: getNestedProperty,
+  fetchNestedProperty: fetchNestedProperty,
   cloneObject: cloneObject
 }
 
