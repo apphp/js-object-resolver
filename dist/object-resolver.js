@@ -68,21 +68,9 @@ const hasNestedProperty = function (objParam, propertyPath) {
 }
 
 /**
- * Deep cloning - create a real clone of object (not by reference)
- * Usable for cloning objects, that includes other objects
- * @usage: objCopy = cloneObject(obj);
- */
-const cloneObject = function (obj) {
-  if (!obj) {
-    return obj;
-  }
-  return JSON.parse(JSON.stringify(obj));
-}
-
-/**
  * Check if object has chained nested property and return the last found property value
  * @usage: const obj = { role: { role: { role: 'student' } }};
- *         const role = objectGetNestedProperty(obj, 'role');
+ *         const role = fetchNestedProperty(obj, 'role');
  */
 const fetchNestedProperty = function (obj, path) {
   if (!obj || !path) {
@@ -102,6 +90,17 @@ const fetchNestedProperty = function (obj, path) {
   return result;
 };
 
+/**
+ * Deep cloning - create a real clone of object (not by reference)
+ * Usable for cloning objects, that includes other objects
+ * @usage: objCopy = cloneObject(obj);
+ */
+const cloneObject = function (obj) {
+  if (!obj) {
+    return obj;
+  }
+  return JSON.parse(JSON.stringify(obj));
+}
 
 /**
  |------------------------------------------------------------
