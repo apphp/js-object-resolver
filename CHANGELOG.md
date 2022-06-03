@@ -1,5 +1,8 @@
 # CHANGELOG
 
+### 2.3.2 - 03 Jun 2022
+* Changed some rules in ESLint
+
 ### 2.3.1 - 25 Mar 2022
 * Typo fixes
 
