@@ -46,8 +46,12 @@ $ npm run eslint-fix
 
 Require package:
 ```js
+// by using require
 const resolver = require('@apphp/object-resolver');
+// by using import 
 //import resolver from "@apphp/object-resolver";
+// by using object destructor
+//const {cloneObject} = require('dist/object-resolver');
 ```
 
 ### hasNestedProperty(obj, propertyPath)
@@ -69,7 +73,7 @@ if (prop) {
 ### fetchNestedProperty(obj, path)
 Fetch chained nested property
 ```js
-const prop = fetchNestedProperty(obj, 'prop');
+const prop = resolver.fetchNestedProperty(obj, 'prop');
 ```
 
 ### cloneObject(obj)
@@ -115,7 +119,7 @@ console.log(resolver.getNestedProperty(obj, 'innerObject.deepObject.1.name'));  
 
 ```js
 const obj = { role: { role: { role: 'student' } }};
-const role = fetchNestedProperty(obj, 'role');
+const role = resolver.fetchNestedProperty(obj, 'role');
 ```
 
 ```js
