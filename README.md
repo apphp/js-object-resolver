@@ -8,6 +8,7 @@ Available methods:
 - getNestedProperty
 - fetchNestedProperty
 - cloneObject
+- cloneStructure
 
 &nbsp;
 
@@ -80,6 +81,12 @@ const prop = resolver.fetchNestedProperty(obj, 'prop');
 Deep cloning of object
 ```js
 const objCopy = resolver.cloneObject(obj);
+```
+
+### cloneStructure(obj, options)
+Deep cloning of structure
+```js
+const structureCopy = resolver.cloneStructure(obj, options);
 ```
 
 ## Examples

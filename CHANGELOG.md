@@ -1,5 +1,8 @@
 # CHANGELOG
 
+### 2.4.0 - 17 Apr 2023
+* Added new method cloneStructure (node > v17)
+
 ### 2.3.2 - 03 Jun 2022
 * Changed some rules in ESLint
 * Changes in documentation
