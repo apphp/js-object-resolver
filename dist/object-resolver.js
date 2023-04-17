@@ -4,7 +4,7 @@
  *
  * The MIT License (MIT)
  *
- * Copyright (c) 2021-2022 Samuel Akopyan <admin@apphp.com>
+ * Copyright (c) 2021-2023 Samuel Akopyan <admin@apphp.com>
  */
 
 "use strict";
@@ -17,6 +17,9 @@
 
 /**
  * Check if object has nested property and returns it or default value
+ * @param objParam
+ * @param propertyPath
+ * @param defaultValue
  * @usage: console.log(getNestedProperty(obj, 'innerObject.deepObject.value', false));
  */
 const getNestedProperty = function (objParam, propertyPath, defaultValue) {
@@ -42,6 +45,8 @@ const getNestedProperty = function (objParam, propertyPath, defaultValue) {
 
 /**
  * Check if object has nested property
+ * @param objParam
+ * @param propertyPath
  * @usage: console.log(hasNestedProperty(obj, 'innerObject.deepObject.value'));
  */
 const hasNestedProperty = function (objParam, propertyPath) {
@@ -69,6 +74,8 @@ const hasNestedProperty = function (objParam, propertyPath) {
 
 /**
  * Check if object has chained nested property and return the last found property value
+ * @param obj
+ * @param path
  * @usage: const obj = { role: { role: { role: 'student' } }};
  *         const role = fetchNestedProperty(obj, 'role');
  */
@@ -91,8 +98,9 @@ const fetchNestedProperty = function (obj, path) {
 };
 
 /**
- * Deep cloning - create a real clone of object (not by reference)
+ * Deep cloning - creates a real clone of object (not by reference)
  * Usable for cloning objects, that includes other objects
+ * @param obj
  * @usage: objCopy = cloneObject(obj);
  */
 const cloneObject = function (obj) {
@@ -101,6 +109,22 @@ const cloneObject = function (obj) {
   }
   return JSON.parse(JSON.stringify(obj));
 }
+
+/**
+ * Clone Structure - deep clone of a given object using the structured clone algorithm
+ * Usable for cloning nested objects, arrays, cyclic references, different JS types, etc.
+ * Transferred objects are detached from the original object and attached to the new object; they are no longer accessible in the original object.
+ * @param obj
+ * @param options object with the following properties: transfer (array of transferable objects that will be moved rather than cloned to the returned object.)
+ * @usage: deepClone = cloneObject(obj, options);
+ */
+const cloneStructure = function (obj, options) {
+  if (!obj) {
+    return obj;
+  }
+  return structuredClone(obj, options);
+}
+
 
 /**
  |------------------------------------------------------------
@@ -142,6 +166,7 @@ module.exports = {
   hasNestedProperty: hasNestedProperty,
   getNestedProperty: getNestedProperty,
   fetchNestedProperty: fetchNestedProperty,
-  cloneObject: cloneObject
+  cloneObject: cloneObject,
+  cloneStructure: cloneStructure
 }
 
