@@ -5,6 +5,8 @@
 
 Available methods:
 - isEqual
+- filterObject
+- removeUndefinedProperties
 - hasNestedProperty
 - getNestedProperty
 - fetchLastNestedProperty
@@ -59,8 +61,20 @@ const resolver = require('@apphp/object-resolver');
 ### isEqual(obj, propertyPath)
 Compares two objects for deep equality
 ```js
-const result = isEqual({ a: 1, b: { c: 2 } }, { a: 1, b: { c: 2 } })
-const result = isEqual([1, 2, 3], [1, 2, 4])
+const result = resolver.isEqual({ a: 1, b: { c: 2 } }, { a: 1, b: { c: 2 } });
+const result = resolver.isEqual([1, 2, 3], [1, 2, 4]);
+```
+
+### isEqual(obj, propertyPath)
+Removes properties with `undefined` values from an object
+```js
+const cleaned = resolver.removeUndefinedProperties({ a: 1, b: undefined, c: { d: 4, e: undefined } });
+```
+
+### isEqual(obj, propertyPath)
+Filters the properties of an object based on a predicate function
+```js
+const filtered = filterObject({ a: 1, b: 2, c: 3, d: 4 }, (value, key) => value % 2 === 0);
 ```
 
 ### hasNestedProperty(obj, propertyPath)
@@ -103,6 +117,17 @@ const structureCopy = resolver.cloneStructure(obj, options);
 const obj1 = { a: 1, b: { c: 2 } };
 const obj2 = { a: 1, b: { c: 2 } };
 const compareResult = resolver.isEqual(obj1, obj2);
+```
+
+```js
+const original = { a: 1, b: 2, c: 3, d: 4 };
+const filtered = resolver.filterObject(original, (value, key) => value % 2 === 0);
+console.log(filtered); 
+```
+
+```js
+const original = { a: 1, b: undefined, c: { d: 4, e: undefined } };
+const cleaned = resolver.removeUndefinedProperties(original);
 ```
 
 ```js

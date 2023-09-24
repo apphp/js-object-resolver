@@ -35,6 +35,81 @@ function isEqual(obj1, obj2) {
 }
 
 /**
+ * Filters the properties of an object based on a predicate function.
+ *
+ * @function
+ * @name filterObject
+ * @param {Object} obj - The object to filter.
+ * @param {function} predicate - A function that tests each property's value. Return `true` to keep the property, `false` otherwise.
+ * @returns {Object} A new object with properties that pass the predicate test.
+ * @throws {TypeError} Will throw a TypeError if the first argument is not an object or the second argument is not a function.
+ * @example
+ *
+ * const original = { a: 1, b: 2, c: 3, d: 4 };
+ * const filtered = filterObject(original, (value, key) => value % 2 === 0);
+ * console.log(filtered); // Outputs: { b: 2, d: 4 }
+ *
+ * @note
+ * This function does not modify the original object; it returns a new one.
+ */
+function filterObject(obj, predicate) {
+  if (!obj || typeof obj !== 'object') {
+    return {};
+  }
+
+  if (typeof predicate !== 'function') {
+    throw new TypeError('Predicate should be a function');
+  }
+
+  const result = {};
+
+  for(const key in obj) {
+    if(obj.hasOwnProperty(key) && predicate(obj[key])) {
+      result[key] = obj[key];
+    }
+  }
+
+  return result;
+}
+
+/**
+ * Recursively removes properties with `undefined` values from an object.
+ *
+ * @function
+ * @name removeUndefinedProperties
+ * @param {Object} obj - The object from which to remove properties.
+ * @returns {Object} A new object with all properties with `undefined` values removed.
+ * @throws Will throw an error if the provided argument is not an object.
+ * @example
+ *
+ * const original = { a: 1, b: undefined, c: { d: 4, e: undefined } };
+ * const cleaned = removeUndefinedProperties(original);
+ * console.log(cleaned); // Outputs: { a: 1, c: { d: 4 } }
+ *
+ * @note
+ * This function does not modify the original object; it returns a new one.
+ * The function will recursively traverse nested objects and remove properties with `undefined` values.
+ */
+function removeUndefinedProperties(obj) {
+  if (Array.isArray(obj)) {
+    return obj.map(removeUndefinedProperties);
+  }
+
+  if (typeof obj === 'object' && obj !== null) {
+    const result = {};
+    for (const [key, value] of Object.entries(obj)) {
+      if (value !== undefined) {
+        // Recurse into nested objects
+        result[key] = removeUndefinedProperties(value);
+      }
+    }
+    return result;
+  }
+
+  return obj;
+}
+
+/**
  * Check if object has nested property and returns it or default value.
  * If the property does not exist, it returns the provided default value or undefined.
  *
@@ -275,8 +350,11 @@ const validatePropertyExists = function (obj, prop) {
   return result;
 }
 
+
 module.exports = {
   isEqual: isEqual,
+  filterObject: filterObject,
+  removeUndefinedProperties: removeUndefinedProperties,
   hasNestedProperty: hasNestedProperty,
   getNestedProperty: getNestedProperty,
   fetchLastNestedProperty: fetchLastNestedProperty,
