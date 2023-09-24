@@ -16,6 +16,25 @@
  */
 
 /**
+ * Compares two objects for deep equality.
+ *
+ * @function
+ * @name isEqual
+ * @param {Object} obj1 - The first object to compare.
+ * @param {Object} obj2 - The second object to compare.
+ * @returns {boolean} Returns true if the objects are deeply equal, otherwise false.
+ * @example
+ * isEqual({ a: 1, b: { c: 2 } }, { a: 1, b: { c: 2 } })
+ * // => true
+ *
+ * isEqual({ a: 1, b: { c: 2 } }, { a: 1, b: { c: 3 } })
+ * // => false
+ */
+function isEqual(obj1, obj2) {
+  return JSON.stringify(obj1) === JSON.stringify(obj2);
+}
+
+/**
  * Check if object has nested property and returns it or default value.
  * If the property does not exist, it returns the provided default value or undefined.
  *

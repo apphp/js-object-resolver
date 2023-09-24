@@ -2,6 +2,7 @@
 
 ### 3.0.0 - 25 Sep 2023
 * Added .gitignore file
+* Added new method isEqual
 * Method fetchNestedProperty renamed into fetchLastNestedProperty 
 * Improved documentation
 

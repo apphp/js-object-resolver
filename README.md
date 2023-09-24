@@ -4,6 +4,7 @@
 &nbsp;
 
 Available methods:
+- isEqual
 - hasNestedProperty
 - getNestedProperty
 - fetchLastNestedProperty
@@ -55,8 +56,15 @@ const resolver = require('@apphp/object-resolver');
 //const {cloneObject} = require('dist/object-resolver');
 ```
 
+### isEqual(obj, propertyPath)
+Compares two objects for deep equality
+```js
+const result = isEqual({ a: 1, b: { c: 2 } }, { a: 1, b: { c: 2 } })
+const result = isEqual([1, 2, 3], [1, 2, 4])
+```
+
 ### hasNestedProperty(obj, propertyPath)
-Check if nested property exists, if not return default value
+Checks if nested property exists, if not return default value
 ```js
 const prop = resolver.hasNestedProperty(obj, 'innerObject.deepObject.value');
 const prop = resolver.hasNestedProperty(obj, 'innerObject.deepObject.value', 'defaultValue');
@@ -92,7 +100,12 @@ const structureCopy = resolver.cloneStructure(obj, options);
 ## Examples
 
 ```js
+const obj1 = { a: 1, b: { c: 2 } };
+const obj2 = { a: 1, b: { c: 2 } };
+const compareResult = resolver.isEqual(obj1, obj2);
+```
 
+```js
 const obj = {
   innerObject: {
     deepObject: {
@@ -109,7 +122,6 @@ console.log(resolver.getNestedProperty(obj, 'innerObject.deepObject.wrongValue.o
 ```
 
 ```js
-
 const obj = {
   innerObject: {
     deepObject: [
