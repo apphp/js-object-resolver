@@ -65,16 +65,16 @@ const result = resolver.isEqual({ a: 1, b: { c: 2 } }, { a: 1, b: { c: 2 } });
 const result = resolver.isEqual([1, 2, 3], [1, 2, 4]);
 ```
 
-### isEqual(obj, propertyPath)
+### removeUndefinedProperties(obj)
 Removes properties with `undefined` values from an object
 ```js
 const cleaned = resolver.removeUndefinedProperties({ a: 1, b: undefined, c: { d: 4, e: undefined } });
 ```
 
-### isEqual(obj, propertyPath)
+### filterObject(obj, predicate)
 Filters the properties of an object based on a predicate function
 ```js
-const filtered = filterObject({ a: 1, b: 2, c: 3, d: 4 }, (value, key) => value % 2 === 0);
+const filtered = resolver.filterObject({ a: 1, b: 2, c: 3, d: 4 }, (value, key) => value % 2 === 0);
 ```
 
 ### hasNestedProperty(obj, propertyPath)
