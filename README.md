@@ -84,7 +84,7 @@ const objCopy = resolver.cloneObject(obj);
 ```
 
 ### cloneStructure(obj, options)
-Deep cloning of structure
+Deep cloning of structure (node > v17)
 ```js
 const structureCopy = resolver.cloneStructure(obj, options);
 ```
