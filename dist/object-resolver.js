@@ -16,11 +16,28 @@
  */
 
 /**
- * Check if object has nested property and returns it or default value
- * @param objParam
- * @param propertyPath
- * @param defaultValue
- * @usage: console.log(getNestedProperty(obj, 'innerObject.deepObject.value', false));
+ * Check if object has nested property and returns it or default value.
+ * If the property does not exist, it returns the provided default value or undefined.
+ *
+ * @function
+ * @name getNestedProperty
+ * @param {Object} objParam - The object to query.
+ * @param {string} propertyPath - The path of the property to get, formed as "prop1.prop2.prop3".
+ * @param {*} defaultValue - The value returned if the property path is undefined.
+ * @returns {*} - The value at the specified property path or defaultValue.
+ * @example
+ *
+ * const obj = {
+ *   user: {
+ *     name: 'John Doe',
+ *     address: {
+ *       city: 'New York'
+ *     }
+ *   }
+ * };
+ *
+ * getNestedProperty(obj, 'user.address.city', 'Unknown'); // Returns 'New York'
+ * getNestedProperty(obj, 'user.age', 'Unknown'); // Returns 'Unknown'
  */
 const getNestedProperty = function (objParam, propertyPath, defaultValue) {
   let obj = objParam;
@@ -44,10 +61,26 @@ const getNestedProperty = function (objParam, propertyPath, defaultValue) {
 }
 
 /**
- * Check if object has nested property
- * @param objParam
- * @param propertyPath
- * @usage: console.log(hasNestedProperty(obj, 'innerObject.deepObject.value'));
+ * Determines whether an object has a nested property corresponding to the specified property path.
+ *
+ * @function
+ * @name hasNestedProperty
+ * @param {Object} objParam - The object to inspect.
+ * @param {string} propertyPath - The path of the property to check, formed as "prop1.prop2.prop3".
+ * @returns {boolean} Returns true if the nested property is found, otherwise false.
+ * @example
+ *
+ * const obj = {
+ *   user: {
+ *     name: 'John Doe',
+ *     address: {
+ *       city: 'New York'
+ *     }
+ *   }
+ * };
+ *
+ * hasNestedProperty(obj, 'user.address.city'); // Returns true
+ * hasNestedProperty(obj, 'user.age'); // Returns false
  */
 const hasNestedProperty = function (objParam, propertyPath) {
   let obj = objParam;
@@ -73,13 +106,20 @@ const hasNestedProperty = function (objParam, propertyPath) {
 }
 
 /**
- * Check if object has chained nested property and return the last found property value
- * @param obj
- * @param path
- * @usage: const obj = { role: { role: { role: 'student' } }};
- *         const role = fetchNestedProperty(obj, 'role');
+ * Recursively searches for a nested property in an object and returns the value of the last occurrence of that property in the object chain.
+ *
+ * @function
+ * @name fetchLastNestedProperty
+ * @param {Object} obj - The object to search within.
+ * @param {string} path - The name of the property to search for.
+ * @returns {*} Returns the value of the last occurrence of the nested property if found, otherwise undefined.
+ * @throws Will not throw an error if the property does not exist in the object chain.
+ * @example
+ *
+ * const obj = { role: { role: { role: 'student' } }};
+ * const role = fetchLastNestedProperty(obj, 'role'); // Returns 'student'
  */
-const fetchNestedProperty = function (obj, path) {
+const fetchLastNestedProperty = function (obj, path) {
   if (!obj || !path) {
     return undefined;
   }
@@ -88,20 +128,34 @@ const fetchNestedProperty = function (obj, path) {
   for (property in obj) {
     if (obj.hasOwnProperty(property) && property === path) {
       if (typeof obj[property] === 'object') {
-        result = fetchNestedProperty(obj[property], path);
+        result = fetchLastNestedProperty(obj[property], path);
       } else {
         result = obj[property];
       }
     }
   }
+
   return result;
-};
+}
 
 /**
- * Deep cloning - creates a real clone of object (not by reference)
- * Usable for cloning objects, that includes other objects
- * @param obj
- * @usage: objCopy = cloneObject(obj);
+ * Creates a deep clone of the given object.
+ * (real clone of object, not by reference)
+ *
+ * @function
+ * @name cloneObject
+ * @param {Object} obj - The object to clone.
+ * @returns {Object|null} Returns a deep clone of the original object or the original object if it is falsy.
+ * @example
+ *
+ * const original = { a: 1, b: { c: 2 } };
+ * const cloned = cloneObject(original);
+ * console.log(cloned); // Outputs: { a: 1, b: { c: 2 } }
+ *
+ * @note
+ * This function uses `JSON.parse` and `JSON.stringify` for cloning,
+ * so it will not correctly clone functions, `undefined`, `RegExp`, `Map`, `Set`, etc.
+ * It is suitable for plain objects with primitive types, arrays, and nested structures.
  */
 const cloneObject = function (obj) {
   if (!obj) {
@@ -114,14 +168,29 @@ const cloneObject = function (obj) {
  * Clone Structure - deep clone of a given object using the structured clone algorithm
  * Usable for cloning nested objects, arrays, cyclic references, different JS types, etc.
  * Transferred objects are detached from the original object and attached to the new object; they are no longer accessible in the original object.
- * @param obj
- * @param options object with the following properties: transfer (array of transferable objects that will be moved rather than cloned to the returned object.)
- * @usage: deepClone = cloneObject(obj, options);
+ *
+ *
+ * @function
+ * @name cloneStructure
+ * @param {Object} obj - The object to clone.
+ * @param {Object} [options] - Optional settings for cloning the structure.
+ * @returns {Object|null} Returns a structured clone of the original object, or the original object if it is falsy.
+ * @throws Will throw an error if the `structuredClone` fails.
+ * @example
+ *
+ * const original = { a: 1, b: { c: 2 } };
+ * const cloned = cloneStructure(original, options);
+ * console.log(cloned); // Outputs a structured clone of the original object
+ *
+ * @note
+ * This function relies on the `structuredClone` function,
+ * and the cloning accuracy and capabilities depend on it.
  */
 const cloneStructure = function (obj, options) {
   if (!obj) {
     return obj;
   }
+
   return structuredClone(obj, options);
 }
 
@@ -133,9 +202,21 @@ const cloneStructure = function (obj, options) {
  */
 
 /**
- * Prepare return value
- * @param objParam
- * @param defaultValue
+ * Prepare return value - returns the first defined value among the provided values.
+ *
+ * @function
+ * @name returnValue
+ * @param {*} objParam - The primary value to return if it's defined.
+ * @param {*} [defaultValue] - The secondary value to return if the primary value is undefined.
+ * @returns {*} Returns the primary value if it's defined; otherwise, returns the secondary value if it's defined, and undefined if both are undefined.
+ * @example
+ *
+ * console.log(returnValue(undefined, 'default')); // Outputs: 'default'
+ * console.log(returnValue('primary', 'default')); // Outputs: 'primary'
+ * console.log(returnValue(undefined, undefined)); // Outputs: undefined
+ *
+ * @note
+ * This function doesn't check whether the values are null, it only checks whether the values are undefined.
  */
 const returnValue = function (objParam, defaultValue) {
   if (typeof objParam !== "undefined") {
@@ -150,22 +231,36 @@ const returnValue = function (objParam, defaultValue) {
 }
 
 /**
- * Validates if property exists
- * @param obj
- * @param prop
+ * Validates whether a property exists on an object and returns the object if it does, otherwise returns undefined.
+ *
+ * @function
+ * @name validatePropertyExists
+ * @param {Object} obj - The object to validate.
+ * @param {string} prop - The name of the property to check.
+ * @returns {Object|undefined} Returns the original object if the property exists, otherwise returns undefined.
+ * @example
+ *
+ * const obj = { name: 'John' };
+ * console.log(validatePropertyExists(obj, 'name')); // Outputs: { name: 'John' }
+ * console.log(validatePropertyExists(obj, 'age')); // Outputs: undefined
+ *
+ * @note
+ * This function only checks whether the property exists directly on the object, and does not check the object's prototype chain.
  */
 const validatePropertyExists = function (obj, prop) {
   let result = obj
   if (!obj || !obj.hasOwnProperty(prop)) {
     result = undefined;
   }
+
   return result;
 }
 
 module.exports = {
+  isEqual: isEqual,
   hasNestedProperty: hasNestedProperty,
   getNestedProperty: getNestedProperty,
-  fetchNestedProperty: fetchNestedProperty,
+  fetchLastNestedProperty: fetchLastNestedProperty,
   cloneObject: cloneObject,
   cloneStructure: cloneStructure
 }

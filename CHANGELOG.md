@@ -1,5 +1,10 @@
 # CHANGELOG
 
+### 3.0.0 - 25 Sep 2023
+* Added .gitignore file
+* Method fetchNestedProperty renamed into fetchLastNestedProperty 
+* Improved documentation
+
 ### 2.4.0 - 17 Apr 2023
 * Added new method cloneStructure (node > v17)
 

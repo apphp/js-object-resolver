@@ -6,7 +6,7 @@
 Available methods:
 - hasNestedProperty
 - getNestedProperty
-- fetchNestedProperty
+- fetchLastNestedProperty
 - cloneObject
 - cloneStructure
 
@@ -71,10 +71,10 @@ if (prop) {
 }
 ```
 
-### fetchNestedProperty(obj, path)
-Fetch chained nested property
+### fetchLastNestedProperty(obj, path)
+Fetch last chained nested property
 ```js
-const prop = resolver.fetchNestedProperty(obj, 'prop');
+const prop = resolver.fetchLastNestedProperty(obj, 'prop');
 ```
 
 ### cloneObject(obj)
@@ -126,7 +126,7 @@ console.log(resolver.getNestedProperty(obj, 'innerObject.deepObject.1.name'));  
 
 ```js
 const obj = { role: { role: { role: 'student' } }};
-const role = resolver.fetchNestedProperty(obj, 'role');
+const role = resolver.fetchLastNestedProperty(obj, 'role');
 ```
 
 ```js

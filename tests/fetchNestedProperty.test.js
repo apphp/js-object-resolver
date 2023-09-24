@@ -1,24 +1,24 @@
-const {fetchNestedProperty: fetchNestedProperty} = require('../dist/object-resolver');
+const {fetchLastNestedProperty: fetchLastNestedProperty} = require('../dist/object-resolver');
 
-describe('Test function fetchNestedProperty', () => {
+describe('Test function fetchLastNestedProperty', () => {
 
   test('Missing required arguments', () => {
     const prop = undefined;
-    const receivedProp = fetchNestedProperty();
+    const receivedProp = fetchLastNestedProperty();
     expect(receivedProp).toBe(prop);
   })
 
   test('Missing first required argument', () => {
     const obj = {};
     const prop = undefined;
-    const receivedProp = fetchNestedProperty(obj);
+    const receivedProp = fetchLastNestedProperty(obj);
     expect(receivedProp).toBe(prop);
   })
 
   test('Missing second required argument', () => {
     const path = 'role';
     const prop = undefined;
-    const receivedProp = fetchNestedProperty(null, path);
+    const receivedProp = fetchLastNestedProperty(null, path);
     expect(receivedProp).toBe(prop);
   })
 
@@ -26,7 +26,7 @@ describe('Test function fetchNestedProperty', () => {
     const obj = { role: { role: { role: 'student' } }};
     const path = 'np-role';
     const prop = undefined;
-    const receivedProp = fetchNestedProperty(obj, path);
+    const receivedProp = fetchLastNestedProperty(obj, path);
     expect(receivedProp).toBe(prop);
   })
 
@@ -34,7 +34,7 @@ describe('Test function fetchNestedProperty', () => {
     const obj = { role: { name: { role: 'student' } }};
     const path = 'role';
     const prop = undefined;
-    const receivedProp = fetchNestedProperty(obj, path);
+    const receivedProp = fetchLastNestedProperty(obj, path);
     expect(receivedProp).toBe(prop);
   })
 
@@ -42,7 +42,7 @@ describe('Test function fetchNestedProperty', () => {
     const prop = 'student';
     const obj = { role: { role: prop } };
     const path = 'role';
-    const receivedProp = fetchNestedProperty(obj, path);
+    const receivedProp = fetchLastNestedProperty(obj, path);
     expect(receivedProp).toBe(prop);
   })
 
@@ -50,7 +50,7 @@ describe('Test function fetchNestedProperty', () => {
     const prop = 'student';
     const obj = { role: { role: { role: prop } }};
     const path = 'role';
-    const receivedProp = fetchNestedProperty(obj, path);
+    const receivedProp = fetchLastNestedProperty(obj, path);
     expect(receivedProp).toBe(prop);
   })
 
@@ -58,7 +58,7 @@ describe('Test function fetchNestedProperty', () => {
     const prop = 'student';
     const obj = { role: { role: { role: { role: { role: prop } } } }};
     const path = 'role';
-    const receivedProp = fetchNestedProperty(obj, path);
+    const receivedProp = fetchLastNestedProperty(obj, path);
     expect(receivedProp).toBe(prop);
   })
 
