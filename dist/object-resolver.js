@@ -115,8 +115,8 @@ function removeUndefinedProperties(obj) {
  *
  * @function
  * @name getNestedProperty
- * @param {Object} objParam - The object to query.
- * @param {string} propertyPath - The path of the property to get, formed as "prop1.prop2.prop3".
+ * @param {Object} obj - The object to query.
+ * @param {string} path - The path of the property to get, formed as "prop1.prop2.prop3".
  * @param {*} defaultValue - The value returned if the property path is undefined.
  * @returns {*} - The value at the specified property path or defaultValue.
  * @example
@@ -133,25 +133,25 @@ function removeUndefinedProperties(obj) {
  * getNestedProperty(obj, 'user.address.city', 'Unknown'); // Returns 'New York'
  * getNestedProperty(obj, 'user.age', 'Unknown'); // Returns 'Unknown'
  */
-const getNestedProperty = function (objParam, propertyPath, defaultValue) {
-  let obj = objParam;
+const getNestedProperty = function (obj, path, defaultValue) {
+  let current = obj;
 
-  if (!obj || !propertyPath) {
-    return returnValue(obj, defaultValue);
+  if (!current || !path) {
+    return returnValue(current, defaultValue);
   }
 
   const properties = propertyPath.split('.');
 
   for (let i = 0; i < properties.length; i++) {
     const prop = properties[i];
-    if (!(obj = validatePropertyExists(obj, prop))) {
+    if (!(current = validatePropertyExists(current, prop))) {
       break;
     }
 
-    obj = obj[prop];
+    current = current[prop];
   }
 
-  return returnValue(obj, defaultValue);
+  return returnValue(current, defaultValue);
 }
 
 /**
@@ -159,8 +159,8 @@ const getNestedProperty = function (objParam, propertyPath, defaultValue) {
  *
  * @function
  * @name hasNestedProperty
- * @param {Object} objParam - The object to inspect.
- * @param {string} propertyPath - The path of the property to check, formed as "prop1.prop2.prop3".
+ * @param {Object} obj - The object to inspect.
+ * @param {string} path - The path of the property to check, formed as "prop1.prop2.prop3".
  * @returns {boolean} Returns true if the nested property is found, otherwise false.
  * @example
  *
@@ -176,24 +176,24 @@ const getNestedProperty = function (objParam, propertyPath, defaultValue) {
  * hasNestedProperty(obj, 'user.address.city'); // Returns true
  * hasNestedProperty(obj, 'user.age'); // Returns false
  */
-const hasNestedProperty = function (objParam, propertyPath) {
-  let obj = objParam;
+const hasNestedProperty = function (obj, path) {
+  let current = obj;
   let isFound = true;
 
-  if (!obj || !propertyPath) {
+  if (!current || !path) {
     return false;
   }
 
-  const properties = propertyPath.split('.');
+  const properties = path.split('.');
 
   for (let i = 0; i < properties.length; i++) {
     const prop = properties[i];
-    if (!(obj = validatePropertyExists(obj, prop))) {
+    if (!(current = validatePropertyExists(current, prop))) {
       isFound = false;
       break;
     }
 
-    obj = obj[prop];
+    current = current[prop];
   }
 
   return isFound;
@@ -219,6 +219,7 @@ const fetchLastNestedProperty = function (obj, path) {
   }
 
   let result, property;
+
   for (property in obj) {
     if (obj.hasOwnProperty(property) && property === path) {
       if (typeof obj[property] === 'object') {
@@ -231,6 +232,8 @@ const fetchLastNestedProperty = function (obj, path) {
 
   return result;
 }
+
+
 
 /**
  * Creates a deep clone of the given object.
