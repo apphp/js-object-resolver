@@ -133,14 +133,14 @@ function removeUndefinedProperties(obj) {
  * getNestedProperty(obj, 'user.address.city', 'Unknown'); // Returns 'New York'
  * getNestedProperty(obj, 'user.age', 'Unknown'); // Returns 'Unknown'
  */
-const getNestedProperty = function (obj, path, defaultValue) {
+const getNestedProperty = function (obj, path, defaultValue = undefined) {
   let current = obj;
 
   if (!current || !path) {
     return returnValue(current, defaultValue);
   }
 
-  const properties = propertyPath.split('.');
+  const properties = path.split('.');
 
   for (let i = 0; i < properties.length; i++) {
     const prop = properties[i];
@@ -233,6 +233,73 @@ const fetchLastNestedProperty = function (obj, path) {
   return result;
 }
 
+/**
+ * Set a deeply nested property in an object.
+ *
+ * @param {Object} obj - The object in which to set the nested property.
+ * @param {string|string[]} path - The path to the nested property (e.g., 'user.profile.name', 'user.profile[0].name' or ['user', 'profile[0]', 'name']).
+ * @param {*} value - The value to set for the nested property.
+ */
+const setNestedProperty = function (obj, path, value) {
+  const keys = Array.isArray(path) ? path : path.split('.');
+  let current = obj;
+
+  for (let i = 0; i < keys.length; i++) {
+    const key = keys[i];
+
+    // Check if the current property is an array and if the key has array notation
+    const isArray = Array.isArray(current);
+    const isArrayNotation = key.includes('[') && key.endsWith(']');
+    const isNumericKey = /^\d+$/.test(key.replace(/\[.*\]/, ''));
+
+    if (isArray && isArrayNotation && isNumericKey) {
+      const [arrayKey, indexKey] = key.split(/\[|\]/).filter(Boolean);
+      const index = parseInt(indexKey);
+
+      while (current[arrayKey].length <= index) {
+        current[arrayKey].push(null); // Ensure the array is long enough
+      }
+
+      if (i === keys.length - 1) {
+        // Last key in the path, set the value
+        current[arrayKey][index] = value;
+      } else {
+        // Continue into the nested object
+        current = current[arrayKey][index] = current[arrayKey][index] || {};
+      }
+    } else {
+      if (i === keys.length - 1) {
+        // Last key in the path, set the value
+        current[key] = value;
+      } else {
+        // Continue into the nested object
+        current = current[key] = current[key] || {};
+      }
+    }
+  }
+}
+
+
+/**
+ * Delete a deeply nested property in an object.
+ *
+ * @param {Object} obj - The object from which to delete the nested property.
+ * @param {string|string[]} path - The path to the nested property (e.g., 'user.profile.name' or ['user', 'profile', 'name']).
+ */
+const deleteNestedProperty = function(obj, path) {
+  const keys = Array.isArray(path) ? path : path.split('.');
+  let current = obj;
+
+  for (let i = 0; i < keys.length - 1; i++) {
+    const key = keys[i];
+    if (!current[key]) {
+      return; // Property doesn't exist, nothing to delete
+    }
+    current = current[key];
+  }
+
+  delete current[keys[keys.length - 1]];
+}
 
 
 /**
@@ -361,6 +428,8 @@ module.exports = {
   hasNestedProperty: hasNestedProperty,
   getNestedProperty: getNestedProperty,
   fetchLastNestedProperty: fetchLastNestedProperty,
+  setNestedProperty: setNestedProperty,
+  deleteNestedProperty: deleteNestedProperty,
   cloneObject: cloneObject,
   cloneStructure: cloneStructure
 }

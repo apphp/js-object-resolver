@@ -10,6 +10,7 @@ Available methods:
 - hasNestedProperty
 - getNestedProperty
 - fetchLastNestedProperty
+- setNestedProperty
 - cloneObject
 - cloneStructure
 
@@ -97,6 +98,12 @@ if (prop) {
 Fetch last chained nested property
 ```js
 const prop = resolver.fetchLastNestedProperty(obj, 'prop');
+```
+
+### setNestedProperty(obj, path)
+Set a deeply nested property in an object
+```js
+const prop = resolver.setNestedProperty(obj, 'user.profile.name', 'John Doe');
 ```
 
 ### cloneObject(obj)
