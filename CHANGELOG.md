@@ -1,5 +1,10 @@
 # CHANGELOG
 
+### 3.1.0 - 7 Oct 2023
+* Added new method setNestedProperty
+* Added new method deleteNestedProperty
+* Improved documentation
+
 ### 3.0.0 - 25 Sep 2023
 * Added .gitignore file
 * Added new method isEqual
