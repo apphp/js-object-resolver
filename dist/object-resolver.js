@@ -286,7 +286,11 @@ const setNestedProperty = function (obj, path, value) {
  * @param {Object} obj - The object from which to delete the nested property.
  * @param {string|string[]} path - The path to the nested property (e.g., 'user.profile.name' or ['user', 'profile', 'name']).
  */
-const deleteNestedProperty = function(obj, path) {
+const deleteNestedProperty = function (obj, path) {
+  if (obj === null || typeof obj !== 'object') {
+    return; // Object is null or not an object, nothing to delete
+  }
+
   const keys = Array.isArray(path) ? path : path.split('.');
   let current = obj;
 
@@ -298,7 +302,12 @@ const deleteNestedProperty = function(obj, path) {
     current = current[key];
   }
 
-  delete current[keys[keys.length - 1]];
+  const lastKey = keys[keys.length - 1];
+  if (Array.isArray(current) && lastKey in current) {
+    current.splice(lastKey, 1); // Delete element in array
+  } else {
+    delete current[lastKey]; // Delete property in object
+  }
 }
 
 

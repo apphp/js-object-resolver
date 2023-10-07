@@ -11,6 +11,7 @@ Available methods:
 - getNestedProperty
 - fetchLastNestedProperty
 - setNestedProperty
+- deleteNestedProperty
 - cloneObject
 - cloneStructure
 
@@ -100,10 +101,16 @@ Fetch last chained nested property
 const prop = resolver.fetchLastNestedProperty(obj, 'prop');
 ```
 
-### setNestedProperty(obj, path)
+### setNestedProperty(obj, path, value)
 Set a deeply nested property in an object
 ```js
 const prop = resolver.setNestedProperty(obj, 'user.profile.name', 'John Doe');
+```
+
+### deleteNestedProperty(obj, path)
+Delete a deeply nested property in an object
+```js
+const prop = resolver.deleteNestedProperty(obj, 'user.profile.name', 'John Doe');
 ```
 
 ### cloneObject(obj)
