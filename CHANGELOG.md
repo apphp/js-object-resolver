@@ -1,5 +1,8 @@
 # CHANGELOG
 
+### 3.1.1 - 6 Apr 2024
+* Fixed Prototype Pollution vulnerability in setNestedProperty
+
 ### 3.1.0 - 7 Oct 2023
 * Added new method setNestedProperty
 * Added new method deleteNestedProperty
