@@ -241,11 +241,24 @@ const fetchLastNestedProperty = function (obj, path) {
  * @param {*} value - The value to set for the nested property.
  */
 const setNestedProperty = function (obj, path, value) {
-  const keys = Array.isArray(path) ? path : path.split('.');
+  let keys = path;
   let current = obj;
+
+  if (typeof keys === 'string') {
+    keys = keys.split('.');
+  }
+
+  if (!Array.isArray(keys)) {
+    throw new Error('Path must be a string or an array');
+  }
 
   for (let i = 0; i < keys.length; i++) {
     const key = keys[i];
+
+    // Prevent prototype pollution
+    if (key === '__proto__' || key === 'constructor' || key === 'prototype') {
+      throw new Error('Invalid property key');
+    }
 
     // Check if the current property is an array and if the key has array notation
     const isArray = Array.isArray(current);
@@ -254,7 +267,7 @@ const setNestedProperty = function (obj, path, value) {
 
     if (isArray && isArrayNotation && isNumericKey) {
       const [arrayKey, indexKey] = key.split(/\[|\]/).filter(Boolean);
-      const index = parseInt(indexKey);
+      const index = parseInt(indexKey, 10);
 
       while (current[arrayKey].length <= index) {
         current[arrayKey].push(null); // Ensure the array is long enough
@@ -264,16 +277,18 @@ const setNestedProperty = function (obj, path, value) {
         // Last key in the path, set the value
         current[arrayKey][index] = value;
       } else {
-        // Continue into the nested object
-        current = current[arrayKey][index] = current[arrayKey][index] || {};
+        // Prevent undefined objects in the path
+        if (!current[arrayKey][index]) current[arrayKey][index] = {};
+        current = current[arrayKey][index];
       }
     } else {
       if (i === keys.length - 1) {
         // Last key in the path, set the value
         current[key] = value;
       } else {
-        // Continue into the nested object
-        current = current[key] = current[key] || {};
+        // Prevent undefined objects in the path
+        if (!current[key]) current[key] = {};
+        current = current[key];
       }
     }
   }

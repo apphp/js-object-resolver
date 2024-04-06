@@ -1,8 +1,45 @@
 const {setNestedProperty: setNestedPropertyTest} = require('../dist/object-resolver');
 
 describe('Test function setNestedProperty', () => {
+  // Test cases for setNestedProperty
 
-// Test cases for setNestedProperty
+  let obj;
+
+  beforeEach(() => {
+    obj = {
+      existing: { property: 'value' },
+      arrayProperty: [{ nestedArray: 'nestedValue' }]
+    };
+  });
+
+  test('Should throw an error when trying to modify __proto__', () => {
+    const obj = {};
+    expect(() => setNestedPropertyTest(obj, '__proto__.polluted', 'yes')).toThrow('Invalid property key');
+  });
+
+  test('Should throw an error for non-string and non-array path', () => {
+    expect(() => setNestedPropertyTest(obj, null, 'newValue')).toThrow('Path must be a string or an array');
+    expect(() => setNestedPropertyTest(obj, 42, 'newValue')).toThrow('Path must be a string or an array');
+    expect(() => setNestedPropertyTest(obj, {}, 'newValue')).toThrow('Path must be a string or an array');
+  });
+
+  test('Should throw an error when trying to modify prototype', () => {
+    expect(() => setNestedPropertyTest(obj, 'prototype.polluted', 'yes')).toThrow('Invalid property key');
+  });
+
+  test('Should throw an error when trying to modify constructor', () => {
+    expect(() => setNestedPropertyTest(obj, 'constructor.polluted', 'yes')).toThrow('Invalid property key');
+  });
+
+  test('Sets a value at an existing index in an array', () => {
+    const obj = {
+      numbers: [1, 2, 3]
+    };
+
+    setNestedPropertyTest(obj, 'numbers.1', 99);
+    expect(obj.numbers[1]).toBe(99);
+  });
+
   test('Should set a deeply nested property', () => {
     const obj = {};
     setNestedPropertyTest(obj, 'user.profile.name', 'John Doe');
