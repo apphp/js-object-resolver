@@ -256,7 +256,6 @@ function removeUndefinedProperties(obj) {
     return obj;
 }
 
-
 /**
  * Check if object has nested property and returns it or default value.
  * If the property does not exist, it returns the provided default value or undefined.
@@ -472,31 +471,6 @@ const deleteNestedProperty = function (obj, path) {
     }
 }
 
-/**
- * Set a nested property in an object for immutable operation
- * @param obj
- * @param path
- * @param value
- * @return {Object|*|null}
- */
-const setNestedPropertyImmutable = function (obj, path, value) {
-    const objCopy = cloneForImmutableOperation(obj);
-    setNestedProperty(objCopy, path, value);
-    return objCopy;
-};
-
-/**
- * Delete a nested property in an object for immutable operation
- * @param obj
- * @param path
- * @return {Object|*|null}
- */
-const deleteNestedPropertyImmutable = function (obj, path) {
-    const objCopy = cloneForImmutableOperation(obj);
-    deleteNestedProperty(objCopy, path);
-    return objCopy;
-};
-
 
 /**
  * Creates a deep clone of the given object.
@@ -553,19 +527,6 @@ const cloneStructure = function (obj, options) {
 
     return structuredClone(obj, options);
 }
-
-/**
- * Clone object for immutable operation
- * @param obj
- * @return {Object|null|any}
- */
-const cloneForImmutableOperation = function (obj) {
-  if (typeof structuredClone === 'function') {
-    return structuredClone(obj);
-  }
-
-  return cloneObject(obj);
-};
 
 
 /**
@@ -629,17 +590,18 @@ const validatePropertyExists = function (obj, prop) {
     return result;
 }
 
+
 module.exports = {
-  isEqual: isEqual,
-  filterObject: filterObject,
-  removeUndefinedProperties: removeUndefinedProperties,
-  hasNestedProperty: hasNestedProperty,
-  getNestedProperty: getNestedProperty,
-  fetchLastNestedProperty: fetchLastNestedProperty,
-  setNestedProperty: setNestedProperty,
-  deleteNestedProperty: deleteNestedProperty,
-  setNestedPropertyImmutable: setNestedPropertyImmutable,
-  deleteNestedPropertyImmutable: deleteNestedPropertyImmutable,
-  cloneObject: cloneObject,
-  cloneStructure: cloneStructure
+    isEqual: isEqual,
+    filterObject: filterObject,
+    removeUndefinedProperties: removeUndefinedProperties,
+    hasNestedProperty: hasNestedProperty,
+    getNestedProperty: getNestedProperty,
+    fetchLastNestedProperty: fetchLastNestedProperty,
+    setNestedProperty: setNestedProperty,
+    deleteNestedProperty: deleteNestedProperty,
+    setNestedPropertyImmutable: setNestedPropertyImmutable,
+    deleteNestedPropertyImmutable: deleteNestedPropertyImmutable,
+    cloneObject: cloneObject,
+    cloneStructure: cloneStructure
 };
