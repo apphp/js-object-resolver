@@ -31,7 +31,142 @@
  * // => false
  */
 function isEqual(obj1, obj2) {
-  return JSON.stringify(obj1) === JSON.stringify(obj2);
+  const seen = new WeakMap();
+
+  function deepEqual(value1, value2) {
+    if (Object.is(value1, value2)) {
+      return true;
+    }
+
+    if (value1 === null || value2 === null || typeof value1 !== 'object' || typeof value2 !== 'object') {
+      return false;
+    }
+
+    if (Object.getPrototypeOf(value1) !== Object.getPrototypeOf(value2)) {
+      return false;
+    }
+
+    if (seen.has(value1)) {
+      return seen.get(value1) === value2;
+    }
+    seen.set(value1, value2);
+
+    if (value1 instanceof Date && value2 instanceof Date) {
+      return value1.getTime() === value2.getTime();
+    }
+
+    if (value1 instanceof RegExp && value2 instanceof RegExp) {
+      return value1.source === value2.source && value1.flags === value2.flags;
+    }
+
+    if (value1 instanceof ArrayBuffer && value2 instanceof ArrayBuffer) {
+      if (value1.byteLength !== value2.byteLength) {
+        return false;
+      }
+
+      const view1 = new Uint8Array(value1);
+      const view2 = new Uint8Array(value2);
+      for (let i = 0; i < view1.length; i++) {
+        if (view1[i] !== view2[i]) {
+          return false;
+        }
+      }
+      return true;
+    }
+
+    if (ArrayBuffer.isView(value1) && ArrayBuffer.isView(value2)) {
+      if (value1.constructor !== value2.constructor || value1.length !== value2.length) {
+        return false;
+      }
+
+      for (let i = 0; i < value1.length; i++) {
+        if (!Object.is(value1[i], value2[i])) {
+          return false;
+        }
+      }
+      return true;
+    }
+
+    if (value1 instanceof Map && value2 instanceof Map) {
+      if (value1.size !== value2.size) {
+        return false;
+      }
+
+      for (const [key1, mapValue1] of value1) {
+        let hasMatch = false;
+
+        for (const [key2, mapValue2] of value2) {
+          if (deepEqual(key1, key2) && deepEqual(mapValue1, mapValue2)) {
+            hasMatch = true;
+            break;
+          }
+        }
+
+        if (!hasMatch) {
+          return false;
+        }
+      }
+
+      return true;
+    }
+
+    if (value1 instanceof Set && value2 instanceof Set) {
+      if (value1.size !== value2.size) {
+        return false;
+      }
+
+      for (const setValue1 of value1) {
+        let hasMatch = false;
+
+        for (const setValue2 of value2) {
+          if (deepEqual(setValue1, setValue2)) {
+            hasMatch = true;
+            break;
+          }
+        }
+
+        if (!hasMatch) {
+          return false;
+        }
+      }
+
+      return true;
+    }
+
+    if (Array.isArray(value1) && Array.isArray(value2)) {
+      if (value1.length !== value2.length) {
+        return false;
+      }
+
+      for (let i = 0; i < value1.length; i++) {
+        if (!deepEqual(value1[i], value2[i])) {
+          return false;
+        }
+      }
+      return true;
+    }
+
+    const keys1 = Reflect.ownKeys(value1);
+    const keys2 = Reflect.ownKeys(value2);
+
+    if (keys1.length !== keys2.length) {
+      return false;
+    }
+
+    for (const key of keys1) {
+      if (!Object.prototype.hasOwnProperty.call(value2, key)) {
+        return false;
+      }
+
+      if (!deepEqual(value1[key], value2[key])) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  return deepEqual(obj1, obj2);
 }
 
 /**

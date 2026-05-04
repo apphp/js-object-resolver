@@ -60,11 +60,32 @@ const resolver = require('@apphp/object-resolver');
 //const {cloneObject} = require('dist/object-resolver');
 ```
 
-### isEqual(obj, propertyPath)
-Compares two objects for deep equality
+### isEqual(value1, value2)
+Compares two values for deep equality.
+
+`isEqual()` performs a recursive deep comparison and supports primitives, arrays, plain objects, and common built-in JavaScript types.
+
+Behavior highlights:
+- Object key order does not matter (`{ a: 1, b: 2 }` equals `{ b: 2, a: 1 }`)
+- Nested objects/arrays are compared deeply
+- Supports `Date`, `RegExp`, `Map`, `Set`, `ArrayBuffer`, and typed arrays
+- Handles circular references safely
+- Uses strict prototype checks (values with different prototypes are not equal)
+
 ```js
-const result = resolver.isEqual({ a: 1, b: { c: 2 } }, { a: 1, b: { c: 2 } });
-const result = resolver.isEqual([1, 2, 3], [1, 2, 4]);
+resolver.isEqual({ a: 1, b: { c: 2 } }, { b: { c: 2 }, a: 1 }); // true
+resolver.isEqual([1, 2, 3], [1, 2, 4]); // false
+
+resolver.isEqual(new Date('2023-01-01'), new Date('2023-01-01')); // true
+resolver.isEqual(/abc/gi, /abc/g); // false
+
+resolver.isEqual(new Set([1, { a: 2 }]), new Set([{ a: 2 }, 1])); // true
+
+const x = { a: 1 };
+const y = { a: 1 };
+x.self = x;
+y.self = y;
+resolver.isEqual(x, y); // true
 ```
 
 ### filterObject(obj, predicate)

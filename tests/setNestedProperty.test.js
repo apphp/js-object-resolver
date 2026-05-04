@@ -94,6 +94,22 @@ describe('Test function setNestedProperty', () => {
     expect(obj).toEqual({ user: { "profile":  { "0[1]" : { 'name': 'John Doe' }} } } );
   });
 
+  test('Should set value using bracket notation on array object and grow array', () => {
+    const obj = [[]];
+
+    setNestedPropertyTest(obj, '0[2]', 'third');
+
+    expect(obj[0]).toEqual([null, null, 'third']);
+  });
+
+  test('Should create nested object when bracket notation is not last path segment', () => {
+    const obj = [[]];
+
+    setNestedPropertyTest(obj, ['0[1]', 'name'], 'created');
+
+    expect(obj[0][1]).toEqual({ name: 'created' });
+  });
+
 })
 
 

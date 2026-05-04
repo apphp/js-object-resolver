@@ -1,12 +1,11 @@
 const {cloneStructure: cloneStructureTest} = require('../dist/object-resolver');
 
-// Check the Node.js version
-const nodeMajorVersion = parseInt(process.versions.node.split('.')[0]);
+const hasStructuredClone = typeof structuredClone === 'function';
 
 describe('Test function cloneStructure', () => {
 
   test('Given an undefined value', async () => {
-    if (nodeMajorVersion < 17) {
+    if (!hasStructuredClone) {
       expect(true).toBe(true);
       return;
     }
@@ -17,7 +16,7 @@ describe('Test function cloneStructure', () => {
   })
 
   test('Given a null value', async () => {
-    if (nodeMajorVersion < 17) {
+    if (!hasStructuredClone) {
       expect(true).toBe(true);
       return;
     }
@@ -28,14 +27,15 @@ describe('Test function cloneStructure', () => {
   })
 
   test('Given a simple object value', async () => {
-    if (nodeMajorVersion < 17) {
+    if (!hasStructuredClone) {
       expect(true).toBe(true);
       return;
     }
 
     const obj = {'a': 1};
     const objCopy = cloneStructureTest(obj);
-    expect(objCopy).toBe(obj);
+    expect(objCopy).toStrictEqual(obj);
+    expect(objCopy).not.toBe(obj);
   })
 
 })

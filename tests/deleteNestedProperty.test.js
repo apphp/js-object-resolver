@@ -43,6 +43,18 @@ describe('Test function setNestedProperty', () => {
         deleteNestedPropertyTest(obj, 'user.profile.name');
         expect(obj).toBeNull(); // Object remains null
     });
+
+    test('Should return early when intermediate path is missing', () => {
+        const obj = { user: {} };
+        deleteNestedPropertyTest(obj, 'user.profile.name');
+        expect(obj).toEqual({ user: {} });
+    });
+
+    test('Should delete an item from an array path', () => {
+        const obj = { user: { list: ['a', 'b', 'c'] } };
+        deleteNestedPropertyTest(obj, 'user.list.1');
+        expect(obj.user.list).toEqual(['a', 'c']);
+    });
 })
 
 
