@@ -12,6 +12,8 @@ Available methods:
 - fetchLastNestedProperty
 - setNestedProperty
 - deleteNestedProperty
+- setNestedPropertyImmutable
+- deleteNestedPropertyImmutable
 - cloneObject
 - cloneStructure
 
@@ -148,6 +150,18 @@ Behavior notes:
 const prop = resolver.deleteNestedProperty(obj, 'user.profile.name', 'John Doe');
 ```
 
+### setNestedPropertyImmutable(obj, path, value)
+Set a deeply nested property without mutating the original object
+```js
+const updatedObj = resolver.setNestedPropertyImmutable(obj, 'user.profile.name', 'John Doe');
+```
+
+### deleteNestedPropertyImmutable(obj, path)
+Delete a deeply nested property without mutating the original object
+```js
+const updatedObj = resolver.deleteNestedPropertyImmutable(obj, 'user.profile.name');
+```
+
 ### cloneObject(obj)
 Deep cloning of object
 ```js
@@ -169,6 +183,8 @@ const structureCopy = resolver.cloneStructure(obj, options);
 ### Returns new value (non-mutating)
 - `filterObject`
 - `removeUndefinedProperties`
+- `setNestedPropertyImmutable`
+- `deleteNestedPropertyImmutable`
 - `cloneObject`
 - `cloneStructure`
 

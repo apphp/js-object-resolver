@@ -9,6 +9,7 @@
 * Added a real source layout under `src/object-resolver.js`
 * Updated test suite imports to use `src/object-resolver.js` instead of `dist/object-resolver.js`
 * Updated build flow to generate `dist/object-resolver.js` during release packaging (`prepack`) rather than using `dist` as the development source
+* Added immutable helpers: `setNestedPropertyImmutable` and `deleteNestedPropertyImmutable`
 
 ### 3.1.1 - 6 Apr 2024
 * Fixed Prototype Pollution vulnerability in setNestedProperty

@@ -336,6 +336,26 @@ const cloneStructure = function (obj, options) {
   return structuredClone(obj, options);
 };
 
+const cloneForImmutableOperation = function (obj) {
+  if (typeof structuredClone === 'function') {
+    return structuredClone(obj);
+  }
+
+  return cloneObject(obj);
+};
+
+const setNestedPropertyImmutable = function (obj, path, value) {
+  const objCopy = cloneForImmutableOperation(obj);
+  setNestedProperty(objCopy, path, value);
+  return objCopy;
+};
+
+const deleteNestedPropertyImmutable = function (obj, path) {
+  const objCopy = cloneForImmutableOperation(obj);
+  deleteNestedProperty(objCopy, path);
+  return objCopy;
+};
+
 const returnValue = function (objParam, defaultValue) {
   if (typeof objParam !== 'undefined') {
     return objParam;
@@ -367,6 +387,8 @@ module.exports = {
   fetchLastNestedProperty: fetchLastNestedProperty,
   setNestedProperty: setNestedProperty,
   deleteNestedProperty: deleteNestedProperty,
+  setNestedPropertyImmutable: setNestedPropertyImmutable,
+  deleteNestedPropertyImmutable: deleteNestedPropertyImmutable,
   cloneObject: cloneObject,
   cloneStructure: cloneStructure
 };
