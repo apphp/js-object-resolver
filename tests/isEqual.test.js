@@ -1,4 +1,4 @@
-const {isEqual: isEqualTest} = require('../dist/object-resolver');
+const {isEqual: isEqualTest} = require('../src/object-resolver');
 
 describe('Test function isEqual', () => {
 

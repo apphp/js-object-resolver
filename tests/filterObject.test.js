@@ -1,4 +1,4 @@
-const {filterObject: filterObjectTest} = require('../dist/object-resolver');
+const {filterObject: filterObjectTest} = require('../src/object-resolver');
 
 describe('Test function filterObject', () => {
 

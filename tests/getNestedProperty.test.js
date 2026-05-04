@@ -1,4 +1,4 @@
-const {getNestedProperty: getNestedPropertyTest} = require('../dist/object-resolver');
+const {getNestedProperty: getNestedPropertyTest} = require('../src/object-resolver');
 
 describe('Test function getNestedProperty', () => {
 

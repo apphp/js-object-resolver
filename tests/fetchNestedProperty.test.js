@@ -1,4 +1,4 @@
-const {fetchLastNestedProperty: fetchLastNestedProperty} = require('../dist/object-resolver');
+const {fetchLastNestedProperty: fetchLastNestedProperty} = require('../src/object-resolver');
 
 describe('Test function fetchLastNestedProperty', () => {
 

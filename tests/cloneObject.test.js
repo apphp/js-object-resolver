@@ -1,4 +1,4 @@
-const {cloneObject: cloneObjectTest} = require('../dist/object-resolver');
+const {cloneObject: cloneObjectTest} = require('../src/object-resolver');
 
 describe('Test function cloneObject', () => {
 

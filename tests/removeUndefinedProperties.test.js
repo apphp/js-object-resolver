@@ -1,4 +1,4 @@
-const {removeUndefinedProperties: removeUndefinedPropertiesTest} = require('../dist/object-resolver');
+const {removeUndefinedProperties: removeUndefinedPropertiesTest} = require('../src/object-resolver');
 
 describe('Test function removeUndefinedProperties', () => {
 

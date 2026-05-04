@@ -1,4 +1,4 @@
-const {cloneStructure: cloneStructureTest} = require('../dist/object-resolver');
+const {cloneStructure: cloneStructureTest} = require('../src/object-resolver');
 
 const hasStructuredClone = typeof structuredClone === 'function';
 
