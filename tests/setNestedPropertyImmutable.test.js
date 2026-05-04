@@ -20,4 +20,19 @@ describe('Test function setNestedPropertyImmutable', () => {
     expect(updated).toEqual({ user: { profile: { name: 'Jane' } } });
     expect(original).toEqual({});
   });
+
+  test('Should use structuredClone path when available', () => {
+    const originalStructuredClone = global.structuredClone;
+    global.structuredClone = (value) => JSON.parse(JSON.stringify(value));
+
+    try {
+      const original = { user: { profile: { name: 'John' } } };
+      const updated = setNestedPropertyImmutableTest(original, 'user.profile.name', 'Jane');
+
+      expect(updated).toEqual({ user: { profile: { name: 'Jane' } } });
+      expect(original).toEqual({ user: { profile: { name: 'John' } } });
+    } finally {
+      global.structuredClone = originalStructuredClone;
+    }
+  });
 });
