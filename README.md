@@ -122,13 +122,28 @@ const prop = resolver.fetchLastNestedProperty(obj, 'prop');
 ```
 
 ### setNestedProperty(obj, path, value)
-Set a deeply nested property in an object
+Set a deeply nested property in an object (mutates the original object)
+
+Behavior notes:
+- Mutates `obj` in place; returns `undefined`
+- Creates missing intermediate objects on the path when needed
+- `path` may be a dot-separated string or an array of keys
+- Throws an error for invalid path type (not string/array)
+- Throws an error for protected keys: `__proto__`, `constructor`, `prototype`
+- Supports numeric object keys; limited bracket-style handling is supported by current implementation
 ```js
 const prop = resolver.setNestedProperty(obj, 'user.profile.name', 'John Doe');
 ```
 
 ### deleteNestedProperty(obj, path)
-Delete a deeply nested property in an object
+Delete a deeply nested property in an object (mutates the original object)
+
+Behavior notes:
+- Mutates `obj` in place; returns `undefined`
+- If `obj` is `null` or not an object, it does nothing
+- If any intermediate path segment is missing, it exits early (no throw)
+- For array targets, it removes items via `splice(index, 1)`
+- For object targets, it uses `delete` on the last key
 ```js
 const prop = resolver.deleteNestedProperty(obj, 'user.profile.name', 'John Doe');
 ```
@@ -144,6 +159,30 @@ Deep cloning of structure (node > v17)
 ```js
 const structureCopy = resolver.cloneStructure(obj, options);
 ```
+
+## Mutation and edge cases
+
+### Mutates input
+- `setNestedProperty`
+- `deleteNestedProperty`
+
+### Returns new value (non-mutating)
+- `filterObject`
+- `removeUndefinedProperties`
+- `cloneObject`
+- `cloneStructure`
+
+### Read-only helpers (no mutation)
+- `isEqual`
+- `hasNestedProperty`
+- `getNestedProperty`
+- `fetchLastNestedProperty`
+
+### Edge-case quick reference
+- `hasNestedProperty(obj, path)` returns `false` when `obj` or `path` is missing/falsy
+- `getNestedProperty(obj, path, defaultValue)` returns `defaultValue` only when resolved value is `undefined`
+- `setNestedProperty` throws for invalid path type and protected keys
+- `deleteNestedProperty` safely no-ops for invalid root/non-existing intermediate path
 
 ## Examples
 
