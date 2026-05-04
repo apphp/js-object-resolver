@@ -4,7 +4,7 @@
  *
  * The MIT License (MIT)
  *
- * Copyright (c) 2021-2023 Samuel Akopyan <admin@apphp.com>
+ * Copyright (c) 2021-2026 Samuel Akopyan <admin@apphp.com>
  */
 
 "use strict";
@@ -601,7 +601,8 @@ module.exports = {
   fetchLastNestedProperty: fetchLastNestedProperty,
   setNestedProperty: setNestedProperty,
   deleteNestedProperty: deleteNestedProperty,
+  setNestedPropertyImmutable: setNestedPropertyImmutable,
+  deleteNestedPropertyImmutable: deleteNestedPropertyImmutable,
   cloneObject: cloneObject,
   cloneStructure: cloneStructure
-}
-
+};
