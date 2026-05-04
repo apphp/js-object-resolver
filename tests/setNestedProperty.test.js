@@ -110,6 +110,14 @@ describe('Test function setNestedProperty', () => {
     expect(obj[0][1]).toEqual({ name: 'created' });
   });
 
+  test('Should reuse existing object in bracket notation path', () => {
+    const obj = [[null, { name: 'initial', keep: true }]];
+
+    setNestedPropertyTest(obj, ['0[1]', 'name'], 'updated');
+
+    expect(obj[0][1]).toEqual({ name: 'updated', keep: true });
+  });
+
 })
 
 
