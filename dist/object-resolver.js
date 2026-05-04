@@ -34,31 +34,38 @@ function isEqual(obj1, obj2) {
   const seen = new WeakMap();
 
   function deepEqual(value1, value2) {
+    // Fast path for strictly identical values (handles NaN correctly via Object.is).
     if (Object.is(value1, value2)) {
       return true;
     }
 
+    // If either side is non-object (or null), deep comparison cannot continue.
     if (value1 === null || value2 === null || typeof value1 !== 'object' || typeof value2 !== 'object') {
       return false;
     }
 
+    // Different prototypes indicate different runtime types/shapes.
     if (Object.getPrototypeOf(value1) !== Object.getPrototypeOf(value2)) {
       return false;
     }
 
+    // Circular reference handling: ensure previously visited object maps to same counterpart.
     if (seen.has(value1)) {
       return seen.get(value1) === value2;
     }
     seen.set(value1, value2);
 
+    // Date objects are equal when their timestamps match.
     if (value1 instanceof Date && value2 instanceof Date) {
       return value1.getTime() === value2.getTime();
     }
 
+    // RegExp objects are equal when both source and flags match.
     if (value1 instanceof RegExp && value2 instanceof RegExp) {
       return value1.source === value2.source && value1.flags === value2.flags;
     }
 
+    // Compare raw ArrayBuffer contents byte-by-byte.
     if (value1 instanceof ArrayBuffer && value2 instanceof ArrayBuffer) {
       if (value1.byteLength !== value2.byteLength) {
         return false;
@@ -74,6 +81,7 @@ function isEqual(obj1, obj2) {
       return true;
     }
 
+    // Compare typed arrays/DataView by constructor, length, and element values.
     if (ArrayBuffer.isView(value1) && ArrayBuffer.isView(value2)) {
       if (value1.constructor !== value2.constructor || value1.length !== value2.length) {
         return false;
@@ -87,6 +95,7 @@ function isEqual(obj1, obj2) {
       return true;
     }
 
+    // Compare Map entries by deep-equality of both keys and values (order-independent).
     if (value1 instanceof Map && value2 instanceof Map) {
       if (value1.size !== value2.size) {
         return false;
@@ -110,6 +119,7 @@ function isEqual(obj1, obj2) {
       return true;
     }
 
+    // Compare Set values by deep-equality membership (order-independent).
     if (value1 instanceof Set && value2 instanceof Set) {
       if (value1.size !== value2.size) {
         return false;
@@ -133,6 +143,7 @@ function isEqual(obj1, obj2) {
       return true;
     }
 
+    // Compare arrays by length and then by ordered element deep-equality.
     if (Array.isArray(value1) && Array.isArray(value2)) {
       if (value1.length !== value2.length) {
         return false;
@@ -146,6 +157,7 @@ function isEqual(obj1, obj2) {
       return true;
     }
 
+    // Fallback object comparison: own keys must match, then each value must deep-match.
     const keys1 = Reflect.ownKeys(value1);
     const keys2 = Reflect.ownKeys(value2);
 
