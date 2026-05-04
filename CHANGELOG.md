@@ -4,6 +4,7 @@
 * Improved `isEqual` with robust deep-equality logic (order-insensitive object keys, special JS types, circular references)
 * Added test coverage for `isEqual` (`Date`, `RegExp`, `Map`, `Set`, object key order, circular references)
 * Expanded `isEqual` documentation in README
+* Updated README
 
 ### 3.1.1 - 6 Apr 2024
 * Fixed Prototype Pollution vulnerability in setNestedProperty

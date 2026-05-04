@@ -101,10 +101,9 @@ const cleaned = resolver.removeUndefinedProperties({ a: 1, b: undefined, c: { d:
 ```
 
 ### hasNestedProperty(obj, propertyPath)
-Checks if nested property exists, if not return default value
+Checks whether a nested property exists and returns a boolean result
 ```js
-const prop = resolver.hasNestedProperty(obj, 'innerObject.deepObject.value');
-const prop = resolver.hasNestedProperty(obj, 'innerObject.deepObject.value', 'defaultValue');
+const exists = resolver.hasNestedProperty(obj, 'innerObject.deepObject.value'); // true/false
 ```
 
 ### getNestedProperty(objParam, propertyPath, defaultValue)
