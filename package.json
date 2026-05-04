@@ -31,7 +31,8 @@
     "jest": "^27.4.7"
   },
   "scripts": {
-    "build": "mkdir -p dist && cp src/object-resolver.js dist/object-resolver.js",
+    "build:no-comments": "mkdir -p dist && sed -E '/^[[:space:]]*\\/\\//d;/^[[:space:]]*\\/\\*/,/\\*\\/[[:space:]]*$/d;s@[[:space:]]*//.*$@@' src/object-resolver.js > dist/object-resolver.js",
+    "build": "npm run build:no-comments",
     "prepack": "npm run build",
     "test": "jest --runInBand --detectOpenHandles --forceExit --coverage",
     "eslint": "eslint src/* --ext .js",
