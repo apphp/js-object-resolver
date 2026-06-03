@@ -135,6 +135,18 @@ describe('Test function getNestedProperty', () => {
     expect(receivedProp).toBe(3);
   })
 
+  test('Receive a root array value using bracket notation', async () => {
+    const obj = [{a: 3}];
+    const receivedProp = getNestedPropertyTest(obj, '[0].a');
+    expect(receivedProp).toBe(3);
+  })
+
+  test('Ignore empty bracket segment in path', async () => {
+    const obj = {a: 3};
+    const receivedProp = getNestedPropertyTest(obj, '[][a]');
+    expect(receivedProp).toBe(3);
+  })
+
 })
 
 

@@ -4,7 +4,7 @@
 * Strengthened nested path parsing for bracket notation, quoted bracket keys, and escaped key characters
 * Updated nested property helpers to share consistent path parsing behavior
 * Added tests for bracket notation and escaped keys in nested property operations
-
+* Added parser edge-case tests for root bracket paths and empty bracket segments
 
 ### 3.2.0 - 4 May 2026
 * Improved `isEqual` with robust deep-equality logic (order-insensitive object keys, special JS types, circular references)

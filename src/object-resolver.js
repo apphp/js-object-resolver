@@ -497,10 +497,6 @@ const parsePath = function (path) {
                 keys.push(bracketKey);
             }
 
-            while (i < path.length && path[i] !== ']') {
-                i++;
-            }
-
             if (path[i] === ']') {
                 i++;
             }
