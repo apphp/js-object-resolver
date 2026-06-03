@@ -61,6 +61,24 @@ describe('Test function setNestedProperty', () => {
         deleteNestedPropertyTest(obj, ['user', 'profile', 'name']);
         expect(obj).toEqual({ user: { profile: { age: 30 } } });
     });
+
+    test('Should delete property using bracket notation', () => {
+        const obj = { user: { list: ['a', 'b', 'c'] } };
+        deleteNestedPropertyTest(obj, 'user.list[1]');
+        expect(obj.user.list).toEqual(['a', 'c']);
+    });
+
+    test('Should delete property with escaped dot in key', () => {
+        const obj = { 'user.profile': { name: 'John Doe', age: 30 } };
+        deleteNestedPropertyTest(obj, 'user\\.profile.name');
+        expect(obj).toEqual({ 'user.profile': { age: 30 } });
+    });
+
+    test('Should delete quoted bracket key with dot in key', () => {
+        const obj = { user: { 'profile.name': 'John Doe', age: 30 } };
+        deleteNestedPropertyTest(obj, 'user["profile.name"]');
+        expect(obj).toEqual({ user: { age: 30 } });
+    });
 })
 
 

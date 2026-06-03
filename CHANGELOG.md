@@ -1,5 +1,11 @@
 # CHANGELOG
 
+### 3.3.0 - 
+* Strengthened nested path parsing for bracket notation, quoted bracket keys, and escaped key characters
+* Updated nested property helpers to share consistent path parsing behavior
+* Added tests for bracket notation and escaped keys in nested property operations
+
+
 ### 3.2.0 - 4 May 2026
 * Improved `isEqual` with robust deep-equality logic (order-insensitive object keys, special JS types, circular references)
 * Added test coverage for `isEqual` (`Date`, `RegExp`, `Map`, `Set`, object key order, circular references)

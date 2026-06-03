@@ -85,6 +85,24 @@ describe('Test function hasNestedProperty', ()=>{
     expect(receivedProp).toBe(false);
   })
 
+  test('Receive an embedded existing array prop value using bracket notation', async () => {
+    const obj = {'a':1, 'b': [{'bb': 21}, {'bbb': 222}]};
+    const receivedProp = hasNestedPropertyTest(obj, 'b[1].bbb');
+    expect(receivedProp).toBe(true);
+  })
+
+  test('Receive a property with escaped dot in key', async () => {
+    const obj = {'a.b': {c: 3}};
+    const receivedProp = hasNestedPropertyTest(obj, 'a\\.b.c');
+    expect(receivedProp).toBe(true);
+  })
+
+  test('Receive a quoted bracket key with dot in key', async () => {
+    const obj = {a: {'b.c': 3}};
+    const receivedProp = hasNestedPropertyTest(obj, 'a["b.c"]');
+    expect(receivedProp).toBe(true);
+  })
+
 })
 
 

@@ -92,6 +92,49 @@ describe('Test function getNestedProperty', () => {
     expect(receivedProp).toBe(expectedProp);
   })
 
+  test('Receive an embedded existing array prop value using bracket notation', async () => {
+    const obj = {'a':1, 'b': [{'bb': 21}, {'bbb': 222}]};
+    const expectedProp = 222;
+    const receivedProp = getNestedPropertyTest(obj, 'b[1].bbb');
+    expect(receivedProp).toBe(expectedProp);
+  })
+
+  test('Receive a property with escaped dot in key', async () => {
+    const obj = {'a.b': {c: 3}};
+    const receivedProp = getNestedPropertyTest(obj, 'a\\.b.c');
+    expect(receivedProp).toBe(3);
+  })
+
+  test('Receive a quoted bracket key with dot in key', async () => {
+    const obj = {a: {'b.c': 3}};
+    const receivedProp = getNestedPropertyTest(obj, 'a["b.c"]');
+    expect(receivedProp).toBe(3);
+  })
+
+  test('Receive a property with trailing escape in key', async () => {
+    const obj = {'a\\': 3};
+    const receivedProp = getNestedPropertyTest(obj, 'a\\');
+    expect(receivedProp).toBe(3);
+  })
+
+  test('Receive a bracket key with escaped closing bracket', async () => {
+    const obj = {a: {'b]c': 3}};
+    const receivedProp = getNestedPropertyTest(obj, 'a[b\\]c]');
+    expect(receivedProp).toBe(3);
+  })
+
+  test('Receive a quoted bracket key with characters before closing bracket', async () => {
+    const obj = {a: {b: 3}};
+    const receivedProp = getNestedPropertyTest(obj, 'a["b"cc]');
+    expect(receivedProp).toBe(3);
+  })
+
+  test('Receive an unterminated bracket key with trailing escape', async () => {
+    const obj = {a: {'b\\': 3}};
+    const receivedProp = getNestedPropertyTest(obj, 'a[b\\');
+    expect(receivedProp).toBe(3);
+  })
+
 })
 
 

@@ -117,6 +117,17 @@ if (prop) {
 }
 ```
 
+### Path syntax
+Nested property helpers support dot notation, bracket notation, quoted bracket keys, escaped key characters, and array path input.
+
+```js
+resolver.getNestedProperty(obj, 'user.profile.name');
+resolver.getNestedProperty(obj, 'user.profile[0].name');
+resolver.getNestedProperty(obj, 'user["profile.name"]');
+resolver.getNestedProperty(obj, 'user\\.profile.name');
+resolver.setNestedProperty(obj, ['user', 'profile[0]', 'name'], 'John Doe');
+```
+
 ### fetchLastNestedProperty(obj, path)
 Fetch last chained nested property
 ```js
@@ -132,7 +143,7 @@ Behavior notes:
 - `path` may be a dot-separated string or an array of keys
 - Throws an error for invalid path type (not string/array)
 - Throws an error for protected keys: `__proto__`, `constructor`, `prototype`
-- Supports numeric object keys; limited bracket-style handling is supported by current implementation
+- Supports bracket notation, quoted bracket keys, escaped key characters, and numeric array indexes
 ```js
 const prop = resolver.setNestedProperty(obj, 'user.profile.name', 'John Doe');
 ```
@@ -248,6 +259,21 @@ const obj = {
 
 console.log(resolver.hasNestedProperty(obj, 'innerObject.deepObject.0.name'));              // true
 console.log(resolver.getNestedProperty(obj, 'innerObject.deepObject.1.name'));              // 'Nick'
+console.log(resolver.getNestedProperty(obj, 'innerObject.deepObject[2].name'));             // 'Ron'
+```
+
+```js
+const obj = {
+  user: {
+    'profile.name': 'John Doe'
+  },
+  'user.profile': {
+    name: 'Jane Doe'
+  }
+};
+
+console.log(resolver.getNestedProperty(obj, 'user["profile.name"]'));                       // 'John Doe'
+console.log(resolver.getNestedProperty(obj, 'user\\.profile.name'));                        // 'Jane Doe'
 ```
 
 ```js

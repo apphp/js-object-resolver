@@ -73,7 +73,7 @@ describe('Test function setNestedProperty', () => {
   test('Should set a deeply nested property with numeric keys', () => {
     const obj = {};
     setNestedPropertyTest(obj, 'user.0.profile.1.name', 'John Doe');
-    expect(obj).toEqual({ user: {"0" : { profile: {"1": { name: 'John Doe' }} }} });
+    expect(obj).toEqual({ user: [{ profile: [null, { name: 'John Doe' }] }] });
   });
 
   test('Should set a deeply nested property with special characters in keys', () => {
@@ -85,13 +85,13 @@ describe('Test function setNestedProperty', () => {
   test('Should set a deeply nested property with mixed dot and array notation', () => {
     const obj = {};
     setNestedPropertyTest(obj, 'user.profile[0].name', 'John Doe');
-    expect(obj).toEqual({ user: { "profile[0]":  { 'name': 'John Doe' } } } );
+    expect(obj).toEqual({ user: { profile: [{ name: 'John Doe' }] } } );
   });
 
   test('Should set a deeply nested property with mixed array and dot notation', () => {
     const obj = {};
     setNestedPropertyTest(obj, 'user.profile.0[1].name', 'John Doe');
-    expect(obj).toEqual({ user: { "profile":  { "0[1]" : { 'name': 'John Doe' }} } } );
+    expect(obj).toEqual({ user: { profile: [[null, { name: 'John Doe' }]] } } );
   });
 
   test('Should set value using bracket notation on array object and grow array', () => {
@@ -116,6 +116,18 @@ describe('Test function setNestedProperty', () => {
     setNestedPropertyTest(obj, ['0[1]', 'name'], 'updated');
 
     expect(obj[0][1]).toEqual({ name: 'updated', keep: true });
+  });
+
+  test('Should set a property with escaped dot in key', () => {
+    const obj = {};
+    setNestedPropertyTest(obj, 'user\\.profile.name', 'John Doe');
+    expect(obj).toEqual({ 'user.profile': { name: 'John Doe' } });
+  });
+
+  test('Should set a quoted bracket key with dot in key', () => {
+    const obj = {};
+    setNestedPropertyTest(obj, 'user["profile.name"]', 'John Doe');
+    expect(obj).toEqual({ user: { 'profile.name': 'John Doe' } });
   });
 
 })
