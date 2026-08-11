@@ -79,6 +79,28 @@ describe('Test function setNestedProperty', () => {
         deleteNestedPropertyTest(obj, 'user["profile.name"]');
         expect(obj).toEqual({ user: { age: 30 } });
     });
+
+    test('Should throw an error when trying to delete through __proto__', () => {
+        const obj = {};
+        expect(() => deleteNestedPropertyTest(obj, '__proto__.toString')).toThrow('Invalid property key');
+        expect(typeof Object.prototype.toString).toBe('function');
+    });
+
+    test('Should throw for constructor and prototype segments too', () => {
+        const obj = {};
+        expect(() => deleteNestedPropertyTest(obj, 'constructor.prototype.toString')).toThrow('Invalid property key');
+        expect(() => deleteNestedPropertyTest(obj, 'a.prototype.b')).toThrow('Invalid property key');
+        expect(typeof Object.prototype.toString).toBe('function');
+    });
+
+    test('Should reject a forbidden segment even when an earlier one is missing', () => {
+        // The walk returns early on a missing intermediate, so a check performed
+        // during the walk would never reach the __proto__ segment.
+        const obj = {};
+        expect(() => deleteNestedPropertyTest(obj, 'missing.__proto__.toString')).toThrow('Invalid property key');
+        expect(typeof Object.prototype.toString).toBe('function');
+    });
+
 })
 
 

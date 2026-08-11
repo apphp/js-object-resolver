@@ -382,6 +382,15 @@ const fetchLastNestedProperty = function (obj, path) {
 }
 
 /**
+ * Check whether a path segment would reach the prototype chain
+ * @param key
+ * @return {boolean}
+ */
+const isForbiddenKey = function (key) {
+    return key === '__proto__' || key === 'constructor' || key === 'prototype';
+}
+
+/**
  * Set a deeply nested property in an object.
  *
  * @param {Object} obj - The object in which to set the nested property.
@@ -402,7 +411,7 @@ const setNestedProperty = function (obj, path, value) {
         const key = keys[i];
 
         // Prevent prototype pollution
-        if (key === '__proto__' || key === 'constructor' || key === 'prototype') {
+        if (isForbiddenKey(key)) {
             throw new Error('Invalid property key');
         }
 
@@ -525,6 +534,15 @@ const deleteNestedProperty = function (obj, path) {
     }
 
     const keys = parsePath(path);
+
+    // Prevent prototype pollution. Checked up front rather than during the walk
+    // below, which returns early on a missing intermediate and would skip it.
+    for (let i = 0; i < keys.length; i++) {
+        if (isForbiddenKey(keys[i])) {
+            throw new Error('Invalid property key');
+        }
+    }
+
     let current = obj;
 
     for (let i = 0; i < keys.length - 1; i++) {
