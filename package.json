@@ -16,6 +16,9 @@
   "bugs": {
     "url": "https://github.com/apphp/js-object-resolver/issues"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "keywords": [
     "object",
     "nested",
