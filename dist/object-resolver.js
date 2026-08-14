@@ -187,7 +187,7 @@ const getNestedProperty = function (obj, path, defaultValue = undefined) {
         return returnValue(current, defaultValue);
     }
 
-    const properties = path.split('.');
+    const properties = parsePath(path);
 
     for (let i = 0; i < properties.length; i++) {
         const prop = properties[i];
@@ -209,7 +209,7 @@ const hasNestedProperty = function (obj, path) {
         return false;
     }
 
-    const properties = path.split('.');
+    const properties = parsePath(path);
 
     for (let i = 0; i < properties.length; i++) {
         const prop = properties[i];
@@ -244,52 +244,130 @@ const fetchLastNestedProperty = function (obj, path) {
     return result;
 }
 
+const isForbiddenKey = function (key) {
+    return key === '__proto__' || key === 'constructor' || key === 'prototype';
+}
+
 const setNestedProperty = function (obj, path, value) {
     let keys = path;
     let current = obj;
 
-    if (typeof keys === 'string') {
-        keys = keys.split('.');
-    }
-
-    if (!Array.isArray(keys)) {
+    if (typeof keys === 'string' || Array.isArray(keys)) {
+        keys = parsePath(keys);
+    } else {
         throw new Error('Path must be a string or an array');
     }
 
     for (let i = 0; i < keys.length; i++) {
         const key = keys[i];
 
-        if (key === '__proto__' || key === 'constructor' || key === 'prototype') {
+        if (isForbiddenKey(key)) {
             throw new Error('Invalid property key');
         }
 
-        const isArray = Array.isArray(current);
-        const isArrayNotation = key.includes('[') && key.endsWith(']');
-        const isNumericKey = /^\d+$/.test(key.replace(/\[.*\]/, ''));
-
-        if (isArray && isArrayNotation && isNumericKey) {
-            const [arrayKey, indexKey] = key.split(/\[|\]/).filter(Boolean);
-            const index = parseInt(indexKey, 10);
-
-            while (current[arrayKey].length <= index) {
-                current[arrayKey].push(null);
-            }
-
-            if (i === keys.length - 1) {
-                current[arrayKey][index] = value;
-            } else {
-                if (!current[arrayKey][index]) current[arrayKey][index] = {};
-                current = current[arrayKey][index];
-            }
+        if (i === keys.length - 1) {
+            current[key] = value;
         } else {
-            if (i === keys.length - 1) {
-                current[key] = value;
-            } else {
-                if (!current[key]) current[key] = {};
-                current = current[key];
+            if (!current[key]) {
+                current[key] = /^\d+$/.test(keys[i + 1]) ? [] : {};
             }
+
+            if (Array.isArray(current[key]) && /^\d+$/.test(keys[i + 1])) {
+                const index = parseInt(keys[i + 1], 10);
+                while (current[key].length <= index) {
+                    current[key].push(null);
+                }
+            }
+
+            current = current[key];
         }
     }
+}
+
+const parsePath = function (path) {
+    if (Array.isArray(path)) {
+        return path.reduce((result, key) => result.concat(parsePath(String(key))), []);
+    }
+
+    const keys = [];
+    let key = '';
+    let i = 0;
+
+    while (i < path.length) {
+        const char = path[i];
+
+        if (char === '\\') {
+            if (i + 1 < path.length) {
+                key += path[i + 1];
+                i += 2;
+            } else {
+                key += char;
+                i++;
+            }
+        } else if (char === '.') {
+            if (key) {
+                keys.push(key);
+            }
+            key = '';
+            i++;
+        } else if (char === '[') {
+            if (key) {
+                keys.push(key);
+                key = '';
+            }
+            i++;
+
+            let bracketKey = '';
+            let quote = null;
+
+            if (path[i] === '"' || path[i] === "'") {
+                quote = path[i];
+                i++;
+            }
+
+            while (i < path.length) {
+                const bracketChar = path[i];
+
+                if (bracketChar === '\\') {
+                    if (i + 1 < path.length) {
+                        bracketKey += path[i + 1];
+                        i += 2;
+                    } else {
+                        bracketKey += bracketChar;
+                        i++;
+                    }
+                } else if (quote && bracketChar === quote) {
+                    i++;
+                    while (i < path.length && path[i] !== ']') {
+                        i++;
+                    }
+                    break;
+                } else if (!quote && bracketChar === ']') {
+                    break;
+                } else {
+                    bracketKey += bracketChar;
+                    i++;
+                }
+            }
+
+            if (bracketKey) {
+                keys.push(bracketKey);
+            }
+
+            if (path[i] === ']') {
+                i++;
+            }
+        } else {
+            key += char;
+            i++;
+        }
+    }
+
+    if (key) {
+        keys.push(key);
+    }
+
+    return keys;
 }
 
 const deleteNestedProperty = function (obj, path) {
@@ -297,7 +375,14 @@ const deleteNestedProperty = function (obj, path) {
         return;
     }
 
-    const keys = Array.isArray(path) ? path : path.split('.');
+    const keys = parsePath(path);
+
+    for (let i = 0; i < keys.length; i++) {
+        if (isForbiddenKey(keys[i])) {
+            throw new Error('Invalid property key');
+        }
+    }
+
     let current = obj;
 
     for (let i = 0; i < keys.length - 1; i++) {
