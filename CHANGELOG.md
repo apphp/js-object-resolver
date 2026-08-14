@@ -1,11 +1,13 @@
 # CHANGELOG
 
+### 3.3.1 - 13 Aug 2026
+* Fixed reject prototype keys in deleteNestedProperty
+
 ### 3.3.0 - 14 Aug 2026
 * Strengthened nested path parsing for bracket notation, quoted bracket keys, and escaped key characters
 * Updated nested property helpers to share consistent path parsing behavior
 * Added tests for bracket notation and escaped keys in nested property operations
 * Added parser edge-case tests for root bracket paths and empty bracket segments
-* Fixed reject prototype keys in deleteNestedProperty
 
 ### 3.2.0 - 4 May 2026
 * Improved `isEqual` with robust deep-equality logic (order-insensitive object keys, special JS types, circular references)
